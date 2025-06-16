@@ -254,19 +254,20 @@ export default function DashboardTab({ onError }) {
         </div>
           </div>
 
-          {/* Income vs Expenses Chart */}
-          <div className="card flex-grow transparent">
-            <div className="card-content flex justify-center items-center">
-              {Array.isArray(dashboardData.expenseTrends) && Array.isArray(dashboardData.incomeTrends) && (
-                <div className="w-full max-w-sm">
-              <BarChart
-                    data={createIncomeExpenseTrendData(dashboardData.expenseTrends ?? [], dashboardData.incomeTrends ?? [])}
-                    title="Income vs Expenses Over Time"
+          {/* Income vs Expenses Over Time */}
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5, delay: 0.3 }}
+            className="card transparent mb-6"
+          >
+            <div className="card-content">
+              <BarChart 
+                data={createIncomeExpenseTrendData(dashboardData.expenseTrends, dashboardData.incomeTrends)}
+                title="Income vs Expenses Over Time"
               />
-              </div>
-            )}
-          </div>
-        </div>
+            </div>
+          </motion.div>
         </motion.div>
 
         {/* Right Column - Recent Transactions and Expense Trends */}

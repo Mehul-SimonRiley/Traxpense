@@ -35,6 +35,19 @@ const commonOptions = {
       position: 'top',
     },
   },
+  scales: {
+    y: {
+      beginAtZero: true,
+      grid: {
+        color: 'rgba(0, 0, 0, 0.1)',
+      },
+    },
+    x: {
+      grid: {
+        display: false,
+      },
+    },
+  },
 }
 
 // Line Chart Component
@@ -46,11 +59,19 @@ export const LineChart = ({ data, title }) => {
       title: {
         display: true,
         text: title,
+        font: {
+          size: 16,
+          weight: 'bold',
+        },
       },
     },
   }
 
-  return <Line data={data} options={options} />
+  return (
+    <div style={{ height: '300px', width: '100%' }}>
+      <Line data={data} options={options} />
+    </div>
+  )
 }
 
 // Bar Chart Component
@@ -62,11 +83,19 @@ export const BarChart = ({ data, title }) => {
       title: {
         display: true,
         text: title,
+        font: {
+          size: 16,
+          weight: 'bold',
+        },
       },
     },
   }
 
-  return <Bar data={data} options={options} />
+  return (
+    <div style={{ height: '300px', width: '100%' }}>
+      <Bar data={data} options={options} />
+    </div>
+  )
 }
 
 // Pie Chart Component
@@ -135,26 +164,30 @@ export const createIncomeExpenseTrendData = (expenseTrends, incomeTrends) => {
   const allLabels = Array.from(new Set([
     ...expenses.map(item => item?.month).filter(Boolean),
     ...incomes.map(item => item?.month).filter(Boolean)
-  ])).sort(); // Sort labels chronologically if possible, or alphabetically
+  ])).sort();
 
   return {
     labels: allLabels,
     datasets: [
       {
         label: 'Expenses',
-        data: Array.isArray(allLabels) ? allLabels.map(month => {
+        data: allLabels.map(month => {
           const trend = expenses.find(item => item?.month === month);
-          return trend?.total ?? 0; // Safely access total or default to 0
-        }) : [],
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+          return trend?.total ?? 0;
+        }),
+        backgroundColor: 'rgba(239, 68, 68, 0.5)', // Red for expenses
+        borderColor: 'rgb(239, 68, 68)',
+        borderWidth: 1,
       },
       {
         label: 'Income',
-        data: Array.isArray(allLabels) ? allLabels.map(month => {
+        data: allLabels.map(month => {
           const trend = incomes.find(item => item?.month === month);
-          return trend?.total ?? 0; // Safely access total or default to 0
-        }) : [],
-        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+          return trend?.total ?? 0;
+        }),
+        backgroundColor: 'rgba(16, 185, 129, 0.5)', // Green for income
+        borderColor: 'rgb(16, 185, 129)',
+        borderWidth: 1,
       },
     ],
   };
