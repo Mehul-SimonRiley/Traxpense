@@ -112,19 +112,19 @@ const AppContent = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen" style={{ backgroundImage: 'url(/background.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
             {/* Header */}
             <header className="bg-white shadow-sm">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                    <div className="flex justify-between h-16">
-                        <div className="flex">
+                    <div className="flex justify-between items-center h-16">
+                        <div className="flex items-center">
                             <button
                                 onClick={() => setSidebarOpen(!sidebarOpen)}
                                 className="px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
                             >
                                 <FiMenu className="h-6 w-6" />
                             </button>
-                            <div className="flex-shrink-0 flex items-center">
+                            <div className="flex items-center ml-4">
                                 <FiDollarSign className="h-8 w-8 text-blue-600" />
                                 <span className="ml-2 text-xl font-bold text-gray-900">Traxpense</span>
                             </div>
