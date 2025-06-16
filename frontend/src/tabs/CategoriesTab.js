@@ -128,7 +128,7 @@ export default function CategoriesTab() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="p-4"
+      className="p-4 transparent"
     >
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Categories</h2>
@@ -144,7 +144,7 @@ export default function CategoriesTab() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="bg-white rounded-lg shadow mb-6"
+        className="bg-white rounded-lg shadow mb-6 transparent"
       >
         <div className="p-4 border-b">
           <h2 className="text-xl font-bold">Category List</h2>

@@ -190,7 +190,7 @@ export default function BudgetsTab() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="p-4"
+      className="p-4 transparent"
     >
       <div className="flex justify-between items-center mb-6">
         <h1 className="page-title">Budget Planner</h1>
@@ -219,22 +219,22 @@ export default function BudgetsTab() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="bg-white rounded-lg shadow mb-6"
+        className="bg-white rounded-lg shadow mb-6 transparent"
       >
         <div className="p-4 border-b">
           <h2 className="text-xl font-bold">Budget Summary</h2>
         </div>
         <div className="p-4">
           <div className="grid grid-cols-3 gap-4">
-            <div className="bg-white p-4 rounded-lg shadow">
+            <div className="bg-white p-4 rounded-lg shadow transparent">
               <h3 className="text-gray-500">Total Budget</h3>
               <p className="text-2xl font-bold">{formatCurrency(totalBudget)}</p>
             </div>
-            <div className="bg-white p-4 rounded-lg shadow">
+            <div className="bg-white p-4 rounded-lg shadow transparent">
               <h3 className="text-gray-500">Total Spent</h3>
               <p className="text-2xl font-bold">{formatCurrency(totalSpent)}</p>
             </div>
-            <div className="bg-white p-4 rounded-lg shadow">
+            <div className="bg-white p-4 rounded-lg shadow transparent">
               <h3 className="text-gray-500">Remaining</h3>
               <p className="text-2xl font-bold">{formatCurrency(remaining)}</p>
             </div>
@@ -247,7 +247,7 @@ export default function BudgetsTab() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="bg-white rounded-lg shadow mb-6"
+        className="bg-white rounded-lg shadow mb-6 transparent"
       >
         <div className="p-4 border-b">
           <h2 className="text-xl font-bold">Budget Progress</h2>
@@ -274,7 +274,7 @@ export default function BudgetsTab() {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.3 }}
-        className="bg-white rounded-lg shadow mb-6"
+        className="bg-white rounded-lg shadow mb-6 transparent"
       >
         <div className="p-4 border-b">
           <h2 className="text-xl font-bold">Budget Categories</h2>

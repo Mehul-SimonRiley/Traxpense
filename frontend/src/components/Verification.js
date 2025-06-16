@@ -49,7 +49,7 @@ export default function Verification() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-indigo-100 via-white to-cyan-100 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen transparent flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         {/* Header Section */}
         <div className="text-center">
@@ -65,7 +65,7 @@ export default function Verification() {
         </div>
 
         {/* Verification Form */}
-        <div className="bg-white py-10 px-8 shadow-2xl rounded-2xl border border-gray-100 backdrop-blur-sm">
+        <div className="bg-white bg-opacity-80 py-10 px-8 shadow-2xl rounded-2xl border border-gray-100 backdrop-blur-sm">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {/* Verification Code Field */}
             <div>

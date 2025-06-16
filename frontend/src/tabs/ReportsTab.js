@@ -101,7 +101,7 @@ export default function ReportsTab() {
         animate={{ opacity: 1, y: 0 }}
         exit={{ opacity: 0, y: -20 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="p-4"
+        className="p-4 transparent"
       >
         <motion.div
           initial={{ opacity: 0, y: -20 }}
@@ -127,7 +127,7 @@ export default function ReportsTab() {
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.4 }}
-          className="card mb-6"
+          className="card mb-6 transparent"
         >
         <div className="card-content">
             <div className="flex space-x-4">
@@ -170,7 +170,7 @@ export default function ReportsTab() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
             transition={{ duration: 0.3, delay: 0.5 }}
-            className="card"
+            className="card transparent"
           >
             <div className="card-content">
               {reportType === 'expense-income' && (
@@ -179,7 +179,7 @@ export default function ReportsTab() {
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3, delay: 0.6 }}
                 >
-            <div className="card">
+            <div className="card transparent">
               <div className="card-header">
                 <h2 className="card-title">Expense vs Income</h2>
               </div>
@@ -264,7 +264,7 @@ export default function ReportsTab() {
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3, delay: 0.6 }}
                 >
-            <div className="card">
+            <div className="card transparent">
               <div className="card-header">
                 <h2 className="card-title">Category Breakdown</h2>
               </div>
@@ -321,7 +321,7 @@ export default function ReportsTab() {
                   animate={{ opacity: 1 }}
                   transition={{ duration: 0.3, delay: 0.6 }}
                 >
-            <div className="card">
+            <div className="card transparent">
               <div className="card-header">
                 <h2 className="card-title">Spending Trends</h2>
               </div>

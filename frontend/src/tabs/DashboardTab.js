@@ -148,7 +148,7 @@ export default function DashboardTab({ onError }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="p-4"
+      className="p-4 transparent"
     >
       <div className="flex justify-between items-center mb-6">
         <h1 className="page-title">Expense Dashboard</h1>
@@ -175,7 +175,7 @@ export default function DashboardTab({ onError }) {
       >
         <motion.div 
           whileHover={{ scale: 1.02 }}
-          className="card"
+          className="card transparent"
         >
           <div className="card-content">
             <div className="flex items-center justify-between">
@@ -191,7 +191,7 @@ export default function DashboardTab({ onError }) {
 
         <motion.div 
           whileHover={{ scale: 1.02 }}
-          className="card"
+          className="card transparent"
         >
           <div className="card-content">
             <div className="flex items-center justify-between">
@@ -207,7 +207,7 @@ export default function DashboardTab({ onError }) {
 
         <motion.div 
           whileHover={{ scale: 1.02 }}
-          className="card"
+          className="card transparent"
         >
           <div className="card-content">
             <div className="flex items-center justify-between">
@@ -223,7 +223,7 @@ export default function DashboardTab({ onError }) {
 
         <motion.div 
           whileHover={{ scale: 1.02 }}
-          className="card"
+          className="card transparent"
         >
           <div className="card-content">
             <div className="flex items-center justify-between">
@@ -248,7 +248,7 @@ export default function DashboardTab({ onError }) {
           className="lg:col-span-2 space-y-6 flex flex-col"
         >
           {/* Expense Distribution Chart */}
-          <div className="card flex-grow">
+          <div className="card flex-grow transparent">
             <div className="card-content flex justify-center items-center">
               <div className="w-64 h-64 md:w-80 md:h-80">
               <PieChart
@@ -260,7 +260,7 @@ export default function DashboardTab({ onError }) {
           </div>
 
           {/* Income vs Expenses Chart */}
-          <div className="card flex-grow">
+          <div className="card flex-grow transparent">
             <div className="card-content flex justify-center items-center">
               {Array.isArray(dashboardData.expenseTrends) && Array.isArray(dashboardData.incomeTrends) && (
                 <div className="w-full max-w-sm">
@@ -282,7 +282,7 @@ export default function DashboardTab({ onError }) {
           className="lg:col-span-1 space-y-6"
         >
           {/* Recent Transactions */}
-          <div className="card">
+          <div className="card transparent">
           <div className="card-header">
               <h3 className="card-title">Recent Transactions</h3>
           </div>
@@ -311,7 +311,7 @@ export default function DashboardTab({ onError }) {
           </div>
 
           {/* Expense Trends - Based on the screenshot, this is on the right */}
-        <div className="card">
+        <div className="card transparent">
           <div className="card-header">
               <h3 className="card-title">Expense Trends</h3>
           </div>

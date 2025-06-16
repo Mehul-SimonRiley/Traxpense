@@ -118,9 +118,9 @@ const AppContent = () => {
     };
 
     return (
-        <div className="min-h-screen bg-gray-50">
+        <div className="min-h-screen transparent">
             {/* Header */}
-            <header className="bg-white shadow-sm relative" style={{ minHeight: '4rem' }}>
+            <header className="shadow-sm relative" style={{ minHeight: '4rem' }}>
                 <div className="relative flex items-center justify-center py-4" style={{ minHeight: '4rem' }}>
                     {/* Left: Hamburger menu */}
                     <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center">
@@ -155,7 +155,7 @@ const AppContent = () => {
             {/* Settings Modal */}
             {showSettingsModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
-                    <div className="bg-white rounded-xl shadow-lg p-8 max-w-sm w-full text-center">
+                    <div className="bg-white bg-opacity-80 rounded-xl shadow-lg p-8 max-w-sm w-full text-center">
                         <div className="text-lg font-semibold mb-4">Settings Tab is still under development for now.</div>
                         <div className="text-gray-600 mb-6">Thanks for your patience.</div>
                         <button
@@ -176,7 +176,7 @@ const AppContent = () => {
                 <aside
                     className={`${
                         sidebarOpen ? 'w-64' : 'w-20'
-                    } bg-white shadow-sm transition-all duration-300 ease-in-out`}
+                    } shadow-sm transition-all duration-300 ease-in-out`}
                 >
                     <nav className="mt-5 px-2">
                         {tabs.map((tab) => (

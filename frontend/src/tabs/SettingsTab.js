@@ -301,14 +301,14 @@ export default function SettingsTab({ onError }) {
 
   if (isLoading) {
     return (
-      <div className="loading-overlay">
+      <div className="loading-overlay transparent">
         <LoadingSpinner text="Loading settings..." />
       </div>
     );
   }
 
   return (
-    <div>
+    <div className="transparent">
       <div className="flex justify-between items-center mb-6">
         <h1 className="page-title">Settings</h1>
         {saveStatus && (

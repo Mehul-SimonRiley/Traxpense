@@ -110,7 +110,7 @@ export default function CalendarTab() {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="p-4"
+      className="p-4 transparent"
     >
       <div className="flex justify-between items-center mb-6">
         <h1 className="page-title">Financial Calendar</h1>
@@ -121,7 +121,7 @@ export default function CalendarTab() {
         initial={{ opacity: 0, y: -20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.1 }}
-        className="card mb-6"
+        className="card mb-6 transparent"
       >
         <div className="card-content">
           <div className="flex justify-between items-center">
@@ -160,7 +160,7 @@ export default function CalendarTab() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.2 }}
-        className="card"
+        className="card transparent"
       >
         <div className="card-content">
           {/* Day headers */}
@@ -188,7 +188,7 @@ export default function CalendarTab() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3, delay: index * 0.02 }}
-                  className={`border rounded-md p-2 min-h-[100px] ${day ? "bg-white" : "bg-gray-100"}`}
+                  className={`border rounded-md p-2 min-h-[100px] ${day ? "bg-white bg-opacity-80" : "bg-gray-100 bg-opacity-80"}`}
                 >
                   {day && (
                     <>

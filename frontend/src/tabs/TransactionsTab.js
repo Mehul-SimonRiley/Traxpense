@@ -268,7 +268,7 @@ export default function TransactionsTab({ onError }) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5 }}
-      className="p-4"
+      className="p-4 transparent"
     >
       <div className="flex justify-between items-center mb-6">
         <h2 className="text-2xl font-bold">Transactions</h2>
@@ -301,7 +301,7 @@ export default function TransactionsTab({ onError }) {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: index * 0.1 }}
-            className="bg-white p-4 rounded-lg shadow"
+            className="bg-white p-4 rounded-lg shadow transparent"
           >
             <h3 className="text-gray-500">{card.title}</h3>
             <p className={`text-2xl font-bold ${card.color}`}>{formatCurrency(card.value)}</p>
@@ -632,7 +632,7 @@ export default function TransactionsTab({ onError }) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ duration: 0.5, delay: 0.4 }}
-        className="bg-white rounded-lg shadow"
+        className="bg-white rounded-lg shadow transparent"
       >
         <div className="p-4 border-b">
           <h2 className="text-xl font-bold">Transactions</h2>
