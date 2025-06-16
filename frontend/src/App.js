@@ -123,7 +123,7 @@ const AppContent = () => {
             <header className="bg-white bg-opacity-80 shadow-sm">
                 <div className="max-w-7xl mx-auto relative h-16">
                     {/* Left: Hamburger menu */}
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center pl-6">
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center pl-2">
                         <button
                             onClick={() => setSidebarOpen(!sidebarOpen)}
                             className="text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
@@ -137,7 +137,7 @@ const AppContent = () => {
                         <span className="ml-2 text-xl font-bold text-gray-900">Traxpense</span>
                     </div>
                     {/* Right: User avatar */}
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center pr-6">
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center pr-2">
                         <button
                             onClick={() => setShowSettingsModal(true)}
                             className="flex items-center space-x-3 focus:outline-none"
@@ -171,7 +171,7 @@ const AppContent = () => {
 
             <div className="flex">
                 {/* Sidebar */}
-                <aside className={`${sidebarOpen ? 'w-64' : 'w-0'} transition-all duration-300 ease-in-out bg-white bg-opacity-80 shadow-sm`}>
+                <aside className={`${sidebarOpen ? 'w-64' : 'w-16'} transition-all duration-300 ease-in-out bg-white bg-opacity-80 shadow-sm`}>
                     <nav className="mt-5 px-2">
                         {tabs.map((tab) => (
                             <button
@@ -189,18 +189,20 @@ const AppContent = () => {
                                         : 'text-gray-600 hover:bg-gray-50'
                                     } group flex items-center px-2 py-2 text-base font-medium rounded-md w-full mb-1
                                 `}
+                                title={sidebarOpen ? '' : tab.label}
                             >
                                 {tab.icon}
-                                <span className="ml-3">{tab.label}</span>
+                                <span className={`ml-3 ${!sidebarOpen && 'hidden'}`}>{tab.label}</span>
                             </button>
                         ))}
                         {/* Logout Button */}
                         <button
                             onClick={handleLogout}
                             className="group flex items-center px-2 py-2 text-base font-medium rounded-md w-full mb-1 text-gray-600 hover:bg-gray-50"
+                            title={sidebarOpen ? '' : 'Logout'}
                         >
                             <FiLogOut className="mr-3" />
-                            <span className="ml-3">Logout</span>
+                            <span className={`ml-3 ${!sidebarOpen && 'hidden'}`}>Logout</span>
                         </button>
                     </nav>
                 </aside>
