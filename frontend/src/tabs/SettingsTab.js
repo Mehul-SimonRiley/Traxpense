@@ -310,7 +310,7 @@ export default function SettingsTab({ onError }) {
   return (
     <div className="transparent">
       <div className="flex justify-between items-center mb-6">
-        <h1 className="page-title">Settings</h1>
+      <h1 className="page-title">Settings</h1>
         {saveStatus && (
           <div
             className={`flex items-center gap-2 px-3 py-2 rounded-md ${
