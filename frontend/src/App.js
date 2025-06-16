@@ -120,33 +120,31 @@ const AppContent = () => {
     return (
         <div className="min-h-screen" style={{ backgroundImage: 'url(/background.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
             {/* Header */}
-            <header className="bg-white bg-opacity-80 shadow-sm">
-                <div className="max-w-7xl mx-auto relative h-16">
-                    {/* Left: Hamburger menu */}
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center pl-2">
-                        <button
-                            onClick={() => setSidebarOpen(!sidebarOpen)}
-                            className="text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
-                        >
-                            <FiMenu className="h-6 w-6" />
-                        </button>
-                    </div>
-                    {/* Center: Logo */}
-                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 flex items-center">
-                        <FiDollarSign className="h-8 w-8 text-blue-600" />
-                        <span className="ml-2 text-xl font-bold text-gray-900">Traxpense</span>
-                    </div>
-                    {/* Right: User avatar */}
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center pr-2">
-                        <button
-                            onClick={() => setShowSettingsModal(true)}
-                            className="flex items-center space-x-3 focus:outline-none"
-                        >
-                            <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center">
-                                <span className="text-white font-medium">{getInitials(user)}</span>
-                            </div>
-                        </button>
-                    </div>
+            <header className="dashboard-header">
+                {/* Left: Hamburger menu */}
+                <button
+                    onClick={() => setSidebarOpen(!sidebarOpen)}
+                    className="menu-button"
+                >
+                    <FiMenu className="h-6 w-6" />
+                </button>
+
+                {/* Center: Logo */}
+                <div className="logo">
+                    <FiDollarSign className="h-8 w-8 text-blue-600" />
+                    <span className="text-xl font-bold text-gray-900">Traxpense</span>
+                </div>
+
+                {/* Right: User avatar */}
+                <div className="header-actions">
+                    <button
+                        onClick={() => setShowSettingsModal(true)}
+                        className="avatar-button"
+                    >
+                        <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center">
+                            <span className="text-white font-medium">{getInitials(user)}</span>
+                        </div>
+                    </button>
                 </div>
             </header>
 
