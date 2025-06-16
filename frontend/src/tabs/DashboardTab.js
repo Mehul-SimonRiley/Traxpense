@@ -13,7 +13,7 @@ import AnimatedButton from '../components/AnimatedButton'
 export default function DashboardTab({ onError }) {
   console.log('DashboardTab component rendered');
   const [isLoading, setIsLoading] = useState(true)
-  const [timeframe, setTimeframe] = useState("month") // Changed default from "all" to "month"
+  const [timeframe, setTimeframe] = useState("all") // Changed default from "month" to "all"
   const [showCustomPeriod, setShowCustomPeriod] = useState(false)
   const [customDateRange, setCustomDateRange] = useState({
     start_date: "",
@@ -119,11 +119,14 @@ export default function DashboardTab({ onError }) {
   }, []) // Empty dependency array, as the interval callback is now stable via ref
 
   const handleTimeframeChange = (newTimeframe) => {
-    setTimeframe(newTimeframe)
-    if (newTimeframe === "custom") {
-      setShowCustomPeriod(true)
+    if (newTimeframe !== "all") {
+      alert("This feature is under development. Showing All Time data for now.");
+      setTimeframe("all"); // Always revert to 'all'
+    } else {
+      setTimeframe(newTimeframe);
     }
-  }
+    setShowCustomPeriod(false); // Close custom period if opened
+  };
 
   const handleCustomPeriodSubmit = () => {
     if (customDateRange.start_date && customDateRange.end_date) {
@@ -159,9 +162,9 @@ export default function DashboardTab({ onError }) {
             onChange={(e) => handleTimeframeChange(e.target.value)}
           >
             <option value="all">All Time</option>
-            <option value="today">Today</option>
-            <option value="month">This Month</option>
-            <option value="custom">Custom Period</option>
+            <option value="today" title="Under development">Today</option>
+            <option value="month" title="Under development">This Month</option>
+            <option value="custom" title="Under development">Custom Period</option>
           </select>
         </div>
       </div>

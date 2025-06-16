@@ -126,9 +126,10 @@ const AppContent = () => {
                     <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center">
                         <button
                             onClick={() => setSidebarOpen(!sidebarOpen)}
-                            className="p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+                            aria-label="Toggle sidebar"
+                            className="menu-button absolute left-12 p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
                         >
-                            <FiMenu className="h-6 w-6" />
+                            <FiMenu className="text-xl" />
                         </button>
                     </div>
                     {/* Center: Logo (constrained to max-w-7xl) */}
