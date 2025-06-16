@@ -117,7 +117,7 @@ const AppContent = () => {
             <header className="bg-white shadow-sm">
                 <div className="max-w-7xl mx-auto relative h-16">
                     {/* Left: Hamburger menu */}
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center pl-4 sm:pl-6 lg:pl-8">
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center pl-24">
                         <button
                             onClick={() => setSidebarOpen(!sidebarOpen)}
                             className="text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
@@ -131,7 +131,7 @@ const AppContent = () => {
                         <span className="ml-2 text-xl font-bold text-gray-900">Traxpense</span>
                     </div>
                     {/* Right: User avatar */}
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center pr-4 sm:pr-6 lg:pr-8">
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center pr-24">
                         <button
                             onClick={() => setShowSettingsModal(true)}
                             className="flex items-center space-x-3 focus:outline-none"
