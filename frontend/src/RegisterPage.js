@@ -231,7 +231,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen transparent flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
       <div className="max-w-md w-full space-y-8">
         {/* Header Section */}
         <div className="text-center">
@@ -243,7 +243,7 @@ export default function RegisterPage() {
         </div>
 
         {/* Registration Form */}
-        <div className="bg-white py-8 px-6 shadow rounded-lg border border-gray-200">
+        <div className="bg-white bg-opacity-80 py-8 px-6 shadow rounded-lg border border-gray-200">
           <form className="space-y-6" onSubmit={handleSubmit}>
             {/* General Error Message */}
             {errors.general && (

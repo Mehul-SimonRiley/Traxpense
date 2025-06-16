@@ -3,14 +3,14 @@
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: var(--background-color);
+    background-color: transparent;
     padding: 1rem;
 }
 
 .login-card {
     width: 100%;
     max-width: 420px;
-    background-color: var(--card-background);
+    background-color: rgba(255, 255, 255, 0.8);
     border-radius: 0.75rem;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
     padding: 2rem;
