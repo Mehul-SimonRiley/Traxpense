@@ -52,9 +52,11 @@ const AppContent = () => {
     const handleLogout = async () => {
         try {
             await logout();
-            navigate('/login');
+            // The redirect will be handled by the AuthContext
         } catch (error) {
             console.error('Logout error:', error);
+            // Force redirect to login even if there's an error
+            window.location.href = '/login';
         }
     };
 

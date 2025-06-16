@@ -36,9 +36,18 @@ export const AuthProvider = ({ children }) => {
         }
     };
 
-    const logout = () => {
-        authService.logout();
-        setUser(null);
+    const logout = async () => {
+        try {
+            await authService.logout();
+            setUser(null);
+            // Use window.location for a full page reload to clear all state
+            window.location.href = '/login';
+        } catch (error) {
+            console.error('Logout error:', error);
+            // Even if there's an error, clear user state and redirect
+            setUser(null);
+            window.location.href = '/login';
+        }
     };
 
     const updateUser = (userData) => {

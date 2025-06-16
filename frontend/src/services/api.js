@@ -433,25 +433,22 @@ export const authService = {
 
     async logout() {
         try {
-            await api.post('/auth/logout');
-        } catch (error) {
-            console.error('Logout error:', error);
-        } finally {
-            // Clear all possible token and user data storage
+            // Clear all auth-related data from localStorage
             localStorage.removeItem('token');
-            localStorage.removeItem('accessToken');
             localStorage.removeItem('refreshToken');
             localStorage.removeItem('user');
-            sessionStorage.removeItem('token');
-            sessionStorage.removeItem('accessToken');
-            sessionStorage.removeItem('refreshToken');
-            sessionStorage.removeItem('user');
             
-            // Clear any auth headers
-            delete api.defaults.headers.common['Authorization'];
+            // Call the backend logout endpoint
+            await api.post('/auth/logout');
             
-            // Force reload the page to clear any in-memory state
-            window.location.href = '/login';
+            return true;
+        } catch (error) {
+            console.error('Logout error:', error);
+            // Even if the backend call fails, clear local storage
+            localStorage.removeItem('token');
+            localStorage.removeItem('refreshToken');
+            localStorage.removeItem('user');
+            return true;
         }
     },
 
