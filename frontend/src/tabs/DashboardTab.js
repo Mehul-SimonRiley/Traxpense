@@ -106,17 +106,9 @@ export default function DashboardTab({ onError }) {
 
   useEffect(() => {
     console.log('DashboardTab useEffect running');
-    console.log('useEffect dependencies (fetchDashboardData reference):', fetchDashboardData);
-    // Call the function initially
+    // Call the function only once when component mounts
     fetchDashboardDataRef.current();
-
-    // Set up real-time updates every 30 seconds
-    const interval = setInterval(() => fetchDashboardDataRef.current(), 30000);
-    return () => {
-      console.log('Clearing DashboardTab interval');
-      clearInterval(interval)
-    }
-  }, []) // Empty dependency array, as the interval callback is now stable via ref
+  }, []) // Empty dependency array, as we only want to fetch on mount
 
   const handleTimeframeChange = (newTimeframe) => {
     if (newTimeframe !== "all") {
