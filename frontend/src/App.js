@@ -39,20 +39,20 @@ const ProtectedRoute = ({ children }) => {
 
 const AppContent = () => {
     const { user, logout } = useAuth();
-    // Initialize sidebarOpen based on screen width
-    const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth >= 768); // md breakpoint
+    // Revert: Always start sidebar open for desktop first
+    const [sidebarOpen, setSidebarOpen] = useState(true);
     const [activeTab, setActiveTab] = useState('dashboard');
     const [showSettingsModal, setShowSettingsModal] = useState(false);
     const navigate = useNavigate();
 
-    // Effect to handle window resize for sidebar
-    useEffect(() => {
-        const handleResize = () => {
-            setSidebarOpen(window.innerWidth >= 768);
-        };
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+    // Revert: Remove window resize listener for now
+    // useEffect(() => {
+    //     const handleResize = () => {
+    //         setSidebarOpen(window.innerWidth >= 768);
+    //     };
+    //     window.addEventListener('resize', handleResize);
+    //     return () => window.removeEventListener('resize', handleResize);
+    // }, []);
 
     // Always show dashboard tab on mount (e.g., after login)
     useEffect(() => {
@@ -137,8 +137,8 @@ const AppContent = () => {
                         <button
                             onClick={() => setSidebarOpen(!sidebarOpen)}
                             aria-label="Toggle sidebar"
-                            // Responsive left position: left-4 on small, left-12 on medium and up
-                            className="menu-button absolute left-4 md:left-12 p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+                            // Revert: Use fixed left-12 for now, until proper responsive is re-implemented
+                            className="menu-button absolute left-12 p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
                         >
                             <FiMenu className="text-xl" />
                         </button>
@@ -186,13 +186,8 @@ const AppContent = () => {
             <div className="flex">
                 {/* Sidebar */}
                 <aside
-                    className={`
-                        shadow-sm transition-all duration-300 ease-in-out
-                        ${sidebarOpen ? 'w-64' : 'w-0 overflow-hidden'}
-                        md:w-64 md:static md:translate-x-0
-                        fixed inset-y-0 z-40 bg-white bg-opacity-80 border-r border-gray-200
-                        ${!sidebarOpen && 'transform -translate-x-full'}
-                    `}
+                    // Revert: Simplify sidebar classes to desktop fixed state
+                    className={`w-64 shadow-sm transition-all duration-300 ease-in-out bg-white bg-opacity-80 border-r border-gray-200 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}`}
                 >
                     <nav className="mt-5 px-2">
                         {tabs.map((tab) => (
@@ -204,9 +199,10 @@ const AppContent = () => {
                                     } else {
                                         setActiveTab(tab.value);
                                     }
-                                    if (window.innerWidth < 768) { // Close sidebar on mobile after selection
-                                        setSidebarOpen(false);
-                                    }
+                                    // Revert: Remove mobile sidebar closing logic for now
+                                    // if (window.innerWidth < 768) { // Close sidebar on mobile after selection
+                                    //     setSidebarOpen(false);
+                                    // }
                                 }}
                                 className={`
                                     ${activeTab === tab.value
@@ -216,7 +212,7 @@ const AppContent = () => {
                                 `}
                             >
                                 {tab.icon}
-                                <span className="ml-3 whitespace-nowrap">{tab.label}</span> {/* Added whitespace-nowrap */}
+                                <span className="ml-3 whitespace-nowrap">{tab.label}</span>
                             </button>
                         ))}
                         {/* Logout Button */}
@@ -230,16 +226,11 @@ const AppContent = () => {
                     </nav>
                 </aside>
 
-                {/* Overlay for mobile when sidebar is open */}
-                {sidebarOpen && window.innerWidth < 768 && (
-                    <div
-                        className="fixed inset-0 bg-black bg-opacity-50 z-30"
-                        onClick={() => setSidebarOpen(false)}
-                    ></div>
-                )}
+                {/* Revert: Remove Overlay for mobile */}
+                {/* {sidebarOpen && window.innerWidth < 768 && (\n                    <div\n                        className=\"fixed inset-0 bg-black bg-opacity-50 z-30\"\n                        onClick={() => setSidebarOpen(false)}\n                    ></div>\n                )} */}
 
                 {/* Main Content Area */}
-                <main className={`flex-1 overflow-y-auto pt-4 pb-12 ${sidebarOpen && window.innerWidth >= 768 ? 'md:ml-64' : ''}`}> {/* Removed md:ml-0 and made conditional on sidebarOpen for desktop */}
+                <main className={`flex-1 overflow-y-auto pt-4 pb-12 ${sidebarOpen ? 'ml-64' : 'ml-0'}`}>
                     {renderTabContent()}
                 </main>
             </div>
