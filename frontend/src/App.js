@@ -39,10 +39,20 @@ const ProtectedRoute = ({ children }) => {
 
 const AppContent = () => {
     const { user, logout } = useAuth();
-    const [sidebarOpen, setSidebarOpen] = useState(true);
+    // Initialize sidebarOpen based on screen width
+    const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth >= 768); // md breakpoint
     const [activeTab, setActiveTab] = useState('dashboard');
     const [showSettingsModal, setShowSettingsModal] = useState(false);
     const navigate = useNavigate();
+
+    // Effect to handle window resize for sidebar
+    useEffect(() => {
+        const handleResize = () => {
+            setSidebarOpen(window.innerWidth >= 768);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
 
     // Always show dashboard tab on mount (e.g., after login)
     useEffect(() => {
@@ -127,7 +137,8 @@ const AppContent = () => {
                         <button
                             onClick={() => setSidebarOpen(!sidebarOpen)}
                             aria-label="Toggle sidebar"
-                            className="menu-button absolute left-12 p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+                            // Responsive left position: left-4 on small, left-12 on medium and up
+                            className="menu-button absolute left-4 md:left-12 p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
                         >
                             <FiMenu className="text-xl" />
                         </button>
@@ -175,9 +186,13 @@ const AppContent = () => {
             <div className="flex">
                 {/* Sidebar */}
                 <aside
-                    className={`${
-                        sidebarOpen ? 'w-64' : 'w-20'
-                    } shadow-sm transition-all duration-300 ease-in-out`}
+                    className={`
+                        shadow-sm transition-all duration-300 ease-in-out
+                        ${sidebarOpen ? 'w-64' : 'w-0 overflow-hidden'}
+                        md:w-64 md:static md:translate-x-0
+                        fixed inset-y-0 z-40 bg-white bg-opacity-80 border-r border-gray-200
+                        ${!sidebarOpen && 'transform -translate-x-full'}
+                    `}
                 >
                     <nav className="mt-5 px-2">
                         {tabs.map((tab) => (
@@ -189,29 +204,42 @@ const AppContent = () => {
                                     } else {
                                         setActiveTab(tab.value);
                                     }
+                                    if (window.innerWidth < 768) { // Close sidebar on mobile after selection
+                                        setSidebarOpen(false);
+                                    }
                                 }}
-                                className={`${
-                                    activeTab === tab.value
+                                className={`
+                                    ${activeTab === tab.value
                                         ? 'bg-blue-50 text-blue-600'
                                         : 'text-gray-600 hover:bg-gray-50'
-                                } group flex items-center px-2 py-2 text-base font-medium rounded-md w-full mb-1`}
+                                    } group flex items-center px-2 py-2 text-base font-medium rounded-md w-full mb-1
+                                `}
                             >
                                 {tab.icon}
-                                {sidebarOpen && <span className="ml-3">{tab.label}</span>}
+                                <span className="ml-3 whitespace-nowrap">{tab.label}</span> {/* Added whitespace-nowrap */}
                             </button>
                         ))}
+                        {/* Logout Button */}
                         <button
                             onClick={handleLogout}
-                            className="text-gray-600 hover:bg-gray-50 group flex items-center px-2 py-2 text-base font-medium rounded-md w-full mt-4"
+                            className="group flex items-center px-2 py-2 text-base font-medium rounded-md w-full mb-1 text-gray-600 hover:bg-gray-50"
                         >
-                            <FiLogOut className="w-5 h-5" />
-                            {sidebarOpen && <span className="ml-3">Logout</span>}
+                            <FiLogOut className="mr-3" />
+                            <span className="ml-3 whitespace-nowrap">Logout</span>
                         </button>
                     </nav>
                 </aside>
 
-                {/* Main Content */}
-                <main className="flex-1 p-6">
+                {/* Overlay for mobile when sidebar is open */}
+                {sidebarOpen && window.innerWidth < 768 && (
+                    <div
+                        className="fixed inset-0 bg-black bg-opacity-50 z-30"
+                        onClick={() => setSidebarOpen(false)}
+                    ></div>
+                )}
+
+                {/* Main Content Area */}
+                <main className={`flex-1 overflow-y-auto pt-4 pb-12 ${sidebarOpen && window.innerWidth >= 768 ? 'md:ml-64' : ''}`}> {/* Removed md:ml-0 and made conditional on sidebarOpen for desktop */}
                     {renderTabContent()}
                 </main>
             </div>
@@ -219,27 +247,13 @@ const AppContent = () => {
     );
 };
 
-function App() {
+export default function App() {
     return (
-        <AuthProvider>
-            <Router>
-                <ToastContainer position="top-right" autoClose={3000} />
-                <Routes>
-                    <Route path="/login" element={<LoginPage />} />
-                    <Route path="/register" element={<RegisterPage />} />
-                    <Route path="/verify" element={<Verification />} />
-                    <Route
-                        path="/*"
-                        element={
-                            <ProtectedRoute>
-                                <AppContent />
-                            </ProtectedRoute>
-                        }
-                    />
-                </Routes>
-            </Router>
-        </AuthProvider>
+        <Router>
+            <AuthProvider>
+                <AppContent />
+                <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+            </AuthProvider>
+        </Router>
     );
-}
-
-export default App; 
+} 
