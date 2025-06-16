@@ -115,9 +115,9 @@ const AppContent = () => {
         <div className="min-h-screen" style={{ backgroundImage: 'url(/background.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
             {/* Header */}
             <header className="bg-white shadow-sm">
-                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative h-16">
+                <div className="max-w-7xl mx-auto relative h-16">
                     {/* Left: Hamburger menu */}
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center">
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center pl-4 sm:pl-6 lg:pl-8">
                         <button
                             onClick={() => setSidebarOpen(!sidebarOpen)}
                             className="text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
@@ -131,7 +131,7 @@ const AppContent = () => {
                         <span className="ml-2 text-xl font-bold text-gray-900">Traxpense</span>
                     </div>
                     {/* Right: User avatar */}
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center">
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center pr-4 sm:pr-6 lg:pr-8">
                         <button
                             onClick={() => setShowSettingsModal(true)}
                             className="flex items-center space-x-3 focus:outline-none"
