@@ -1,7 +1,7 @@
 "use client"
 
-import React, { useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 import { FiMenu, FiDollarSign, FiHome, FiGrid, FiPieChart, FiLogOut, FiCalendar, FiSettings, FiBarChart2 } from 'react-icons/fi';
 import DashboardTab from './tabs/DashboardTab';
 import CategoriesTab from './tabs/CategoriesTab';
@@ -42,11 +42,17 @@ const AppContent = () => {
     const [sidebarOpen, setSidebarOpen] = useState(true);
     const [activeTab, setActiveTab] = useState('dashboard');
     const [showSettingsModal, setShowSettingsModal] = useState(false);
+    const navigate = useNavigate();
+
+    // Always show dashboard tab on mount (e.g., after login)
+    useEffect(() => {
+        setActiveTab('dashboard');
+    }, []);
 
     const handleLogout = async () => {
         try {
             await logout();
-            window.location.href = '/login';
+            navigate('/login');
         } catch (error) {
             console.error('Logout error:', error);
         }
@@ -114,10 +120,10 @@ const AppContent = () => {
     return (
         <div className="min-h-screen" style={{ backgroundImage: 'url(/background.jpg)', backgroundSize: 'cover', backgroundPosition: 'center', backgroundRepeat: 'no-repeat' }}>
             {/* Header */}
-            <header className="bg-white shadow-sm">
+            <header className="bg-white bg-opacity-80 shadow-sm">
                 <div className="max-w-7xl mx-auto relative h-16">
                     {/* Left: Hamburger menu */}
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center pl-24">
+                    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center pl-6">
                         <button
                             onClick={() => setSidebarOpen(!sidebarOpen)}
                             className="text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
@@ -131,7 +137,7 @@ const AppContent = () => {
                         <span className="ml-2 text-xl font-bold text-gray-900">Traxpense</span>
                     </div>
                     {/* Right: User avatar */}
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center pr-24">
+                    <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center pr-6">
                         <button
                             onClick={() => setShowSettingsModal(true)}
                             className="flex items-center space-x-3 focus:outline-none"
