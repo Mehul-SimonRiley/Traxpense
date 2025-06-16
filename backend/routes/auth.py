@@ -206,4 +206,13 @@ def update_profile():
     except Exception as e:
         db.session.rollback()
         logger.error(f'Profile update error for user {current_user_id}: {str(e)}')
-        return jsonify({"msg": 'Failed to update profile'}), 500 
+        return jsonify({"msg": 'Failed to update profile'}), 500
+
+@auth_bp.route('/logout', methods=['POST'])
+@jwt_required(optional=True)
+def logout():
+    # Client-side tokens are already cleared by the frontend.
+    # This endpoint primarily serves to prevent a 404 and can be extended
+    # for token blacklisting if server-side invalidation is needed.
+    logger.info("User logged out successfully (client-side token cleared).")
+    return jsonify({"msg": "Successfully logged out"}), 200 
