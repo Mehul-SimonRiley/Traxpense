@@ -1,7 +1,7 @@
 "use client"
 
-import React, { useState, useEffect, useCallback } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { FiMenu, FiDollarSign, FiHome, FiGrid, FiPieChart, FiLogOut, FiCalendar, FiSettings, FiBarChart2 } from 'react-icons/fi';
 import DashboardTab from './tabs/DashboardTab';
 import CategoriesTab from './tabs/CategoriesTab';
@@ -39,30 +39,14 @@ const ProtectedRoute = ({ children }) => {
 
 const AppContent = () => {
     const { user, logout } = useAuth();
-    // Initialize sidebarOpen based on screen width
-    const [sidebarOpen, setSidebarOpen] = useState(window.innerWidth >= 768); // md breakpoint
+    const [sidebarOpen, setSidebarOpen] = useState(true);
     const [activeTab, setActiveTab] = useState('dashboard');
     const [showSettingsModal, setShowSettingsModal] = useState(false);
-    const navigate = useNavigate();
-
-    // Effect to handle window resize for sidebar
-    useEffect(() => {
-        const handleResize = () => {
-            setSidebarOpen(window.innerWidth >= 768);
-        };
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    // Always show dashboard tab on mount (e.g., after login)
-    useEffect(() => {
-        setActiveTab('dashboard');
-    }, []);
 
     const handleLogout = async () => {
         try {
             await logout();
-            navigate('/login');
+            window.location.href = '/login';
         } catch (error) {
             console.error('Logout error:', error);
         }
@@ -128,38 +112,33 @@ const AppContent = () => {
     };
 
     return (
-        <div className="min-h-screen transparent">
+        <div className="min-h-screen bg-gray-50">
             {/* Header */}
-            <header className="shadow-sm relative" style={{ minHeight: '4rem' }}>
-                <div className="relative flex items-center justify-center py-4" style={{ minHeight: '4rem' }}>
-                    {/* Left: Hamburger menu */}
-                    <div className="absolute left-0 top-1/2 -translate-y-1/2 flex items-center">
-                        <button
-                            onClick={() => setSidebarOpen(!sidebarOpen)}
-                            aria-label="Toggle sidebar"
-                            // Responsive left position: left-4 on small, left-12 on medium and up
-                            className="menu-button absolute left-4 md:left-12 p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
-                        >
-                            <FiMenu className="text-xl" />
-                        </button>
-                    </div>
-                    {/* Center: Logo (constrained to max-w-7xl) */}
-                    <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2">
-                        <div className="max-w-7xl mx-auto flex items-center">
-                            <FiDollarSign className="h-8 w-8 text-blue-600" />
-                            <span className="ml-2 text-xl font-bold text-gray-900">Traxpense</span>
-                        </div>
-                    </div>
-                    {/* Right: User avatar */}
-                    <div className="absolute right-0 top-1/2 -translate-y-1/2 flex items-center space-x-4 mr-4">
-                        <button
-                            onClick={() => setShowSettingsModal(true)}
-                            className="flex items-center space-x-3 focus:outline-none"
-                        >
-                            <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center">
-                                <span className="text-white font-medium">{getInitials(user)}</span>
+            <header className="bg-white shadow-sm">
+                <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex justify-between h-16">
+                        <div className="flex">
+                            <button
+                                onClick={() => setSidebarOpen(!sidebarOpen)}
+                                className="px-4 text-gray-500 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+                            >
+                                <FiMenu className="h-6 w-6" />
+                            </button>
+                            <div className="flex-shrink-0 flex items-center">
+                                <FiDollarSign className="h-8 w-8 text-blue-600" />
+                                <span className="ml-2 text-xl font-bold text-gray-900">Traxpense</span>
                             </div>
-                        </button>
+                        </div>
+                        <div className="flex items-center">
+                            <button
+                                onClick={() => setShowSettingsModal(true)}
+                                className="flex items-center space-x-3 focus:outline-none"
+                            >
+                                <div className="h-8 w-8 rounded-full bg-blue-600 flex items-center justify-center">
+                                    <span className="text-white font-medium">{getInitials(user)}</span>
+                                </div>
+                            </button>
+                        </div>
                     </div>
                 </div>
             </header>
@@ -167,7 +146,7 @@ const AppContent = () => {
             {/* Settings Modal */}
             {showSettingsModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-30">
-                    <div className="bg-white bg-opacity-80 rounded-xl shadow-lg p-8 max-w-sm w-full text-center">
+                    <div className="bg-white rounded-xl shadow-lg p-8 max-w-sm w-full text-center">
                         <div className="text-lg font-semibold mb-4">Settings Tab is still under development for now.</div>
                         <div className="text-gray-600 mb-6">Thanks for your patience.</div>
                         <button
@@ -185,15 +164,7 @@ const AppContent = () => {
 
             <div className="flex">
                 {/* Sidebar */}
-                <aside
-                    className={`
-                        shadow-sm transition-all duration-300 ease-in-out
-                        ${sidebarOpen ? 'w-64' : 'w-0 overflow-hidden'}
-                        md:w-64 md:static md:translate-x-0
-                        fixed inset-y-0 z-40 bg-white bg-opacity-80 border-r border-gray-200
-                        ${!sidebarOpen && 'transform -translate-x-full'}
-                    `}
-                >
+                <aside className={`${sidebarOpen ? 'w-64' : 'w-0'} transition-all duration-300 ease-in-out bg-white shadow-sm`}>
                     <nav className="mt-5 px-2">
                         {tabs.map((tab) => (
                             <button
@@ -204,9 +175,6 @@ const AppContent = () => {
                                     } else {
                                         setActiveTab(tab.value);
                                     }
-                                    if (window.innerWidth < 768) { // Close sidebar on mobile after selection
-                                        setSidebarOpen(false);
-                                    }
                                 }}
                                 className={`
                                     ${activeTab === tab.value
@@ -216,7 +184,7 @@ const AppContent = () => {
                                 `}
                             >
                                 {tab.icon}
-                                <span className="ml-3 whitespace-nowrap">{tab.label}</span> {/* Added whitespace-nowrap */}
+                                <span className="ml-3">{tab.label}</span>
                             </button>
                         ))}
                         {/* Logout Button */}
@@ -225,21 +193,13 @@ const AppContent = () => {
                             className="group flex items-center px-2 py-2 text-base font-medium rounded-md w-full mb-1 text-gray-600 hover:bg-gray-50"
                         >
                             <FiLogOut className="mr-3" />
-                            <span className="ml-3 whitespace-nowrap">Logout</span>
+                            <span className="ml-3">Logout</span>
                         </button>
                     </nav>
                 </aside>
 
-                {/* Overlay for mobile when sidebar is open */}
-                {sidebarOpen && window.innerWidth < 768 && (
-                    <div
-                        className="fixed inset-0 bg-black bg-opacity-50 z-30"
-                        onClick={() => setSidebarOpen(false)}
-                    ></div>
-                )}
-
                 {/* Main Content Area */}
-                <main className={`flex-1 overflow-y-auto pt-4 pb-12 ${sidebarOpen && window.innerWidth >= 768 ? 'md:ml-64' : ''}`}> {/* Removed md:ml-0 and made conditional on sidebarOpen for desktop */}
+                <main className="flex-1 overflow-y-auto p-4">
                     {renderTabContent()}
                 </main>
             </div>
@@ -251,7 +211,19 @@ export default function App() {
     return (
         <Router>
             <AuthProvider>
-                <AppContent />
+                <Routes>
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
+                    <Route path="/verify" element={<Verification />} />
+                    <Route
+                        path="/*"
+                        element={
+                            <ProtectedRoute>
+                                <AppContent />
+                            </ProtectedRoute>
+                        }
+                    />
+                </Routes>
                 <ToastContainer position="bottom-right" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />
             </AuthProvider>
         </Router>
