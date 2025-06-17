@@ -208,6 +208,11 @@ export default function RegisterPage() {
       }, 1000)
     } catch (err) {
       console.error("Registration API call failed:", err);
+      if (err.error === "Email already registered") {
+        toast.error("This email is already registered. Please use a different email or try logging in.");
+      } else {
+        toast.error(err.error || "Registration failed. Please try again.");
+      }
       setErrors({
         api: err.error || "Registration failed. Please try again."
       })

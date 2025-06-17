@@ -1,6 +1,6 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.schedulers import SchedulerNotRunningError
-from tasks import check_budget_alerts, generate_daily_reports, cleanup_old_notifications
+from tasks import check_budget_alerts, generate_daily_reports, cleanup_old_notifications, cleanup_unverified_users
 import logging
 
 logger = logging.getLogger(__name__)
@@ -11,6 +11,7 @@ def init_scheduler(app):
     scheduler.add_job(func=check_budget_alerts, trigger="interval", hours=24, id="Check budget alerts")
     scheduler.add_job(func=generate_daily_reports, trigger="interval", hours=24, id="Generate daily reports")
     scheduler.add_job(func=cleanup_old_notifications, trigger="interval", hours=24, id="Cleanup old notifications")
+    scheduler.add_job(func=cleanup_unverified_users, trigger="interval", minutes=1, id="Cleanup unverified users")
     
     # Start the scheduler
     scheduler.start()

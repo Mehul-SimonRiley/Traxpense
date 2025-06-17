@@ -1,6 +1,6 @@
 from extensions import db
 from werkzeug.security import generate_password_hash, check_password_hash
-from datetime import datetime
+from datetime import datetime, timedelta
 import logging
 
 logger = logging.getLogger(__name__)
@@ -66,3 +66,24 @@ class User(db.Model):
     
     def get_id(self):
         return str(self.id)
+
+    @classmethod
+    def delete_unverified_users(cls):
+        """Delete users who haven't verified their email within 15 minutes"""
+        # Find users who haven't verified their email and are older than 15 minutes
+        cutoff_time = datetime.utcnow() - timedelta(minutes=15)
+        unverified_users = cls.query.filter(
+            cls.is_email_verified == False,
+            cls.created_at < cutoff_time
+        ).all()
+        
+        # Delete each unverified user
+        for user in unverified_users:
+            db.session.delete(user)
+        
+        try:
+            db.session.commit()
+            return len(unverified_users)
+        except Exception as e:
+            db.session.rollback()
+            raise e

@@ -6,6 +6,7 @@ from models.transaction import Transaction
 from datetime import datetime, timedelta
 import logging
 from sqlalchemy import func
+from models.user import User
 
 logger = logging.getLogger(__name__)
 
@@ -113,4 +114,13 @@ def cleanup_old_notifications():
             
     except Exception as e:
         logger.error(f"Error cleaning up old notifications: {str(e)}")
-        db.session.rollback() 
+        db.session.rollback()
+
+def cleanup_unverified_users():
+    """Delete users who haven't verified their email within 15 minutes"""
+    try:
+        deleted_count = User.delete_unverified_users()
+        if deleted_count > 0:
+            logger.info(f"Cleaned up {deleted_count} unverified users")
+    except Exception as e:
+        logger.error(f"Error cleaning up unverified users: {str(e)}") 
