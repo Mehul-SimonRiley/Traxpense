@@ -114,6 +114,16 @@ def get_dashboard_data():
             *date_filter
         ).group_by('month').order_by('month').all()
 
+        # Get income trends (NEW)
+        income_trends = db.session.query(
+            month_label_expr,
+            func.sum(Transaction.amount).label('total')
+        ).filter(
+            Transaction.user_id == user_id,
+            Transaction.type == 'income',
+            *date_filter
+        ).group_by('month').order_by('month').all()
+
         response_data = {
             'summary': {
                 'totalExpenses': total_expenses,
@@ -122,7 +132,7 @@ def get_dashboard_data():
                 'savings': savings,
                 'savingsRate': f"{savings_rate:.1f}%",
                 'expenseTrend': calculate_trend(expense_trends),
-                'incomeTrend': calculate_trend(expense_trends, 'income'),
+                'incomeTrend': calculate_trend(income_trends, 'income'),
                 'balanceTrend': calculate_balance_trend(current_balance, total_income)
             },
             'recentTransactions': [{
@@ -145,7 +155,11 @@ def get_dashboard_data():
             'expenseTrends': [{
                 'month': t.month,
                 'total': t.total
-            } for t in expense_trends]
+            } for t in expense_trends],
+            'incomeTrends': [{
+                'month': t.month,
+                'total': t.total
+            } for t in income_trends]
         }
 
         logger.info(f"Successfully fetched dashboard data for user {user_id}")
