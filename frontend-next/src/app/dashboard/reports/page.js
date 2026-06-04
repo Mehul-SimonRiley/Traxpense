@@ -35,7 +35,7 @@ ChartJS.register(
 
 export default function ReportsPage() {
     const [reportType, setReportType] = useState("expense-income");
-    const [timeRange, setTimeRange] = useState("month");
+    const [timeRange, setTimeRange] = useState("all");
     const [reportData, setReportData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -100,6 +100,7 @@ export default function ReportsPage() {
                     value={timeRange}
                     onChange={(e) => setTimeRange(e.target.value)}
                 >
+                    <option value="all">All Time</option>
                     <option value="week">Last 7 Days</option>
                     <option value="month">Last 30 Days</option>
                     <option value="year">Last 12 Months</option>

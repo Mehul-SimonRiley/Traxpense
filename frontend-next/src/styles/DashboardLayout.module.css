@@ -99,15 +99,17 @@
 /* Header Styles */
 .header {
     height: 70px;
-    background: transparent;
+    background: var(--bg-secondary);
+    border-bottom: 1px solid var(--input-border);
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 0 2rem;
+    padding: 0 2.5rem;
     position: sticky;
     top: 0;
     z-index: 30;
     margin-top: 0;
+    transition: all 0.3s ease;
 }
 
 .headerLeft {

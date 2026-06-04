@@ -207,70 +207,12 @@ export default function DashboardPage() {
                     </div>
                 </div>
 
-                {/* Smart Insights Widget */}
-                <div className={`${styles.bentoItem} ${styles.rowSpan2}`} style={{ background: 'linear-gradient(145deg, var(--card-bg) 0%, rgba(99, 102, 241, 0.1) 100%)' }}>
-                    <div className={styles.cardHeader}>
-                        <h3 className={styles.cardTitle} style={{ color: 'var(--accent-primary)' }}>✨ Smart Insights</h3>
-                    </div>
-                    <div className="flex flex-col gap-4 mt-2 overflow-y-auto pr-2">
-                        {dashboardData.insights && dashboardData.insights.length > 0 ? (
-                            dashboardData.insights.map((insight, idx) => (
-                                <motion.div
-                                    key={idx}
-                                    initial={{ opacity: 0, x: 20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: 0.1 * idx }}
-                                    className="p-4 rounded-xl bg-black/20 border border-white/5"
-                                >
-                                    <p className="text-sm text-gray-300">
-                                        <span className={`${insight.colorClass || 'text-white'} font-semibold mr-2`}>{insight.icon} {insight.title}:</span>
-                                        {insight.text}
-                                    </p>
-                                </motion.div>
-                            ))
-                        ) : (
-                            <div className="p-4 rounded-xl bg-black/20 border border-white/5">
-                                <p className="text-sm text-gray-400 italic">Gathering insights from your spending patterns...</p>
-                            </div>
-                        )}
-                    </div>
-                </div>
-
-                {/* Recent Transactions List */}
-                <div className={`${styles.bentoItem} ${styles.rowSpan2}`}>
-                    <div className={styles.cardHeader}>
-                        <h3 className={styles.cardTitle}>Recent Activity</h3>
-                    </div>
-                    <div className="flex-1 overflow-y-auto pr-2 mt-2">
-                        {dashboardData.recentTransactions.length > 0 ? (
-                            <div className={styles.transactionList}>
-                                {dashboardData.recentTransactions.map((transaction) => (
-                                    <div key={transaction.id} className={styles.transactionItem}>
-                                        <div className="truncate pr-2">
-                                            <p className={styles.transactionName}>{transaction.description}</p>
-                                            <p className={styles.transactionCategory}>{transaction.category}</p>
-                                        </div>
-                                        <div className="text-right whitespace-nowrap">
-                                            <p className={`${styles.transactionAmount} ${transaction.type === 'expense' ? styles.expense : styles.income}`}>
-                                                {transaction.type === 'expense' ? '-' : '+'}{formatCurrency(transaction.amount)}
-                                            </p>
-                                            <p className={styles.transactionDate}>{formatDate(transaction.date)}</p>
-                                        </div>
-                                    </div>
-                                ))}
-                            </div>
-                        ) : (
-                            <p className="text-gray-500 text-center py-4">No recent transactions</p>
-                        )}
-                    </div>
-                </div>
-
-                {/* Expense Distribution Modern Bar */}
-                <div className={`${styles.bentoItem} ${styles.colSpan2}`}>
+                {/* Expense Distribution Modern Bar (Spans 2 cols, 2 rows) */}
+                <div className={`${styles.bentoItem} ${styles.colSpan2} ${styles.rowSpan2}`}>
                     <div className={styles.cardHeader}>
                         <h3 className={styles.cardTitle}>Expense Distribution</h3>
                     </div>
-                    <div className={`${styles.chartContainer} w-full h-[300px]`}>
+                    <div className={styles.chartContainer}>
                         <ModernBarChart
                             data={{
                                 labels: dashboardData.categoryBreakdown?.map(item => item.category) || [],

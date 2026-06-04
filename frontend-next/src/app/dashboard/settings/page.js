@@ -65,7 +65,7 @@ export default function SettingsPage() {
         try {
             setIsLoading(true);
             const response = await settingsService.getSettings();
-            const settings = response.data;
+            const settings = response || {};
 
             setProfileData({
                 firstName: settings.name?.split(' ')[0] || '',
@@ -227,7 +227,7 @@ export default function SettingsPage() {
 
             <div className={styles.container}>
                 {/* Sidebar Navigation */}
-                <div className={styles.card}>
+                <div className={`${styles.card} ${styles.sidebarCard}`}>
                     <nav className={styles.sidebarNav}>
                         {settingsNavigation.map((item) => {
                             const Icon = item.icon;

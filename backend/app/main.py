@@ -1,11 +1,33 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from app.core.config import settings
+from contextlib import asynccontextmanager
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Try to auto-create tables on startup, but do not crash the server if DB is offline
+    try:
+        from app.db.base import Base
+        from app.db.database import engine
+        
+        # Import models to register them on Base metadata
+        from app.models.user import User
+        from app.models.category import Category
+        from app.models.transaction import Transaction
+        from app.models.budget import Budget
+        from app.models.settings import Settings
+        from app.models.email_verification import EmailVerification
+        
+        Base.metadata.create_all(bind=engine)
+        print("Database tables initialized successfully.")
+    except Exception as e:
+        print(f"WARNING: Could not connect to database on startup. Please ensure your database server is running. Error: {e}")
+    yield
 
 # Import routers
 from app.api.routes import auth, users, budgets, categories, transactions, settings_route, dashboard, reports, insights
 
-app = FastAPI(title=settings.PROJECT_NAME)
+app = FastAPI(title=settings.PROJECT_NAME, lifespan=lifespan)
 
 # CORS config
 app.add_middleware(

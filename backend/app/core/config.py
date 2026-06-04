@@ -11,7 +11,7 @@ class Settings:
     if _db_url and _db_url.startswith("postgres://"):
         _db_url = _db_url.replace("postgres://", "postgresql://", 1)
         
-    DATABASE_URL: str = _db_url or f"sqlite:///{os.path.abspath(os.path.join(os.path.dirname(__file__), '..', '..', 'instance', 'expense_tracker.db'))}"
+    DATABASE_URL: str = _db_url or "mysql+pymysql://root:@localhost:3306/traxpense"
     
     SECRET_KEY: str = os.environ.get("SECRET_KEY", "dev-secret-key")
     JWT_SECRET_KEY: str = os.environ.get("JWT_SECRET_KEY", "jwt-secret-key")

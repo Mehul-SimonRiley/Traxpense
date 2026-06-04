@@ -71,7 +71,8 @@
 
 .bentoItem:hover {
     transform: translateY(-2px);
-    border-color: rgba(255, 255, 255, 0.08);
+    border-color: var(--accent-primary);
+    box-shadow: 0 10px 25px rgba(0, 208, 182, 0.05);
 }
 
 .colSpan2 {

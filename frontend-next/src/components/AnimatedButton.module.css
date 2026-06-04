@@ -3,51 +3,56 @@
     align-items: center;
     justify-content: center;
     gap: 0.5rem;
-    padding: 0.5rem 1rem;
-    border-radius: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 0.75rem;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all 0.2s ease;
     border: 1px solid transparent;
     outline: none;
+    font-size: 0.95rem;
 }
 
 .primary {
-    background: linear-gradient(135deg, #4f46e5 0%, #4338ca 100%);
+    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-hover) 100%);
     color: white;
-    box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.1), 0 2px 4px -1px rgba(79, 70, 229, 0.06);
+    box-shadow: 0 4px 10px rgba(0, 208, 182, 0.15);
 }
 
 .primary:hover {
-    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.2), 0 4px 6px -2px rgba(79, 70, 229, 0.1);
+    box-shadow: 0 6px 15px rgba(0, 208, 182, 0.25);
+    opacity: 0.95;
 }
 
 .outline {
     background: transparent;
-    border-color: #cbd5e1;
-    color: #64748b;
+    border-color: var(--input-border);
+    color: var(--text-primary);
 }
 
 .outline:hover {
-    background-color: #f8fafc;
-    color: #1e293b;
-    border-color: #94a3b8;
+    background-color: var(--bg-primary);
+    border-color: var(--accent-primary);
 }
 
 .danger {
-    background: #fee2e2;
-    color: #991b1b;
+    background: rgba(255, 71, 87, 0.1);
+    color: var(--danger);
+    border-color: rgba(255, 71, 87, 0.2);
 }
 
 .danger:hover {
-    background: #fecaca;
+    background: rgba(255, 71, 87, 0.2);
+    border-color: var(--danger);
 }
 
 .success {
-    background: #dcfce7;
-    color: #166534;
+    background: rgba(0, 208, 182, 0.1);
+    color: var(--success);
+    border-color: rgba(0, 208, 182, 0.2);
 }
 
 .success:hover {
-    background: #bbf7d0;
+    background: rgba(0, 208, 182, 0.2);
+    border-color: var(--success);
 }
