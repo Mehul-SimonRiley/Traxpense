@@ -251,7 +251,7 @@ export default function SettingsPage() {
         try {
             setIsLoading(true);
             const response = await settingsService.uploadProfilePicture(file);
-            const newAvatarPath = response.data.profile_picture;
+            const newAvatarPath = response.data?.profile_picture || response.profile_picture;
             setProfileData(prev => ({ ...prev, avatar: newAvatarPath }));
             if (user) {
                 setUser({ ...user, profile_picture: newAvatarPath });

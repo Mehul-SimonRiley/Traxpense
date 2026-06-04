@@ -1,4 +1,6 @@
-from fastapi import APIRouter, Depends, HTTPException
+import os
+import uuid
+from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from sqlalchemy.orm import Session
 from app.db.database import get_db
 from app.models.settings import Settings
@@ -101,4 +103,51 @@ def update_notifications(notifications_in: NotificationsUpdateSchema, db: Sessio
     
     db.commit()
     return {"message": "Notifications updated successfully"}
+
+@router.post("/profile/picture")
+async def upload_profile_picture(
+    profile_picture: UploadFile = File(...),
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user)
+):
+    # Ensure uploads directory exists
+    UPLOAD_DIR = "uploads"
+    if not os.path.exists(UPLOAD_DIR):
+        os.makedirs(UPLOAD_DIR)
+        
+    # Get file extension
+    file_ext = os.path.splitext(profile_picture.filename)[1]
+    if file_ext.lower() not in [".jpg", ".jpeg", ".png", ".gif", ".webp"]:
+        raise HTTPException(status_code=400, detail="Invalid image file format")
+        
+    # Generate unique filename
+    unique_filename = f"{current_user.id}_{uuid.uuid4().hex}{file_ext}"
+    file_path = os.path.join(UPLOAD_DIR, unique_filename)
+    
+    # Save the file
+    try:
+        with open(file_path, "wb") as buffer:
+            content = await profile_picture.read()
+            buffer.write(content)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Could not save profile picture: {str(e)}")
+        
+    # Update current user profile picture
+    current_user.profile_picture = unique_filename
+    
+    # Update settings profile picture
+    settings = db.query(Settings).filter(Settings.user_id == current_user.id).first()
+    if not settings:
+        settings = Settings(user_id=current_user.id)
+        db.add(settings)
+    settings.profile_picture = unique_filename
+    
+    db.commit()
+    
+    return {
+        "profile_picture": unique_filename,
+        "data": {
+            "profile_picture": unique_filename
+        }
+    }
 

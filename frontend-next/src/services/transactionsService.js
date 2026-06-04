@@ -6,7 +6,10 @@ export const transactionsAPI = {
         try {
             const queryParams = new URLSearchParams()
             Object.entries(filters).forEach(([key, value]) => {
-                if (value) queryParams.append(key, value)
+                if (value !== undefined && value !== null && value !== '') {
+                    const paramKey = key === 'category' ? 'category_id' : key;
+                    queryParams.append(paramKey, value)
+                }
             })
             const queryString = queryParams.toString() ? `?${queryParams.toString()}` : ""
             const response = await api.get(`/transactions${queryString}`)
@@ -116,7 +119,7 @@ export const budgetsAPI = {
             const budgetsWithSpending = await Promise.all(
                 budgets.map(async (budget) => {
                     const transactions = await transactionsAPI.getAll({
-                        category: budget.category_id,
+                        category_id: budget.category_id,
                         start_date: budget.start_date,
                         end_date: budget.end_date
                     });
