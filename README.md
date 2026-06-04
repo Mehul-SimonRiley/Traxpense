@@ -4,7 +4,6 @@
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688.svg)](https://fastapi.tiangolo.com/)
 [![Next.js](https://img.shields.io/badge/Next.js-16.1%2B-black.svg)](https://nextjs.org/)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0%2B-blue.svg)](https://www.mysql.com/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 Traxpense 2.0 is a premium, open-source personal financial tracker and dashboard designed with modern bento-grid layouts, glowing visual analytics, and absolute privacy. Rebuilt entirely on **FastAPI**, **Next.js**, and **MySQL** to provide high-performance ledger management and budget controls.
 
@@ -124,9 +123,3 @@ CREATE DATABASE traxpense;
    *The client interface will boot at [http://localhost:3000](http://localhost:3000).*
 
 ---
-
-## 🔒 Security & Password Migrations
-For migrated databases previously using Flask-Werkzeug hashes, our authentication module includes a transparent hash verifier fallback. Passwords are automatically read and validated using `werkzeug.security.check_password_hash` if bcrypt parsing errors occur, ensuring a smooth transition for existing user accounts.
-
-## 📝 License
-This project is licensed under the MIT License.
