@@ -87,10 +87,10 @@ a {
 
 /* Global Utility Classes using vars */
 .page-title {
-  font-size: 1.875rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: var(--text-primary);
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.25rem;
 }
 
 .btn {

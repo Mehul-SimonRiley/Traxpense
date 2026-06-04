@@ -93,6 +93,14 @@ export default function DashboardPage() {
 
     useEffect(() => {
         fetchDashboardDataRef.current();
+
+        const handleTransactionAdded = () => {
+            fetchDashboardDataRef.current();
+        };
+        window.addEventListener('transactionAdded', handleTransactionAdded);
+        return () => {
+            window.removeEventListener('transactionAdded', handleTransactionAdded);
+        };
     }, []);
 
     const handleTimeframeChange = (newTimeframe) => {

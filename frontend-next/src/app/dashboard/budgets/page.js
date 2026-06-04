@@ -35,6 +35,16 @@ export default function BudgetsPage() {
         fetchData();
     }, [timeframe, customDateRange]);
 
+    useEffect(() => {
+        const handleTransactionAdded = () => {
+            fetchBudgets();
+        };
+        window.addEventListener('transactionAdded', handleTransactionAdded);
+        return () => {
+            window.removeEventListener('transactionAdded', handleTransactionAdded);
+        };
+    }, []);
+
     const fetchData = async () => {
         setIsLoading(true);
         try {

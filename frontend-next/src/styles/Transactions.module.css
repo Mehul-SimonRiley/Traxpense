@@ -2,11 +2,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 2rem;
+    margin-bottom: 1.25rem;
 }
 
 .pageTitle {
-    font-size: 1.875rem;
+    font-size: 1.5rem;
     font-weight: 700;
     color: var(--text-primary);
 }
@@ -33,7 +33,7 @@
     background: var(--card-bg);
     backdrop-filter: blur(10px);
     border-radius: 1rem;
-    padding: 1.5rem;
+    padding: 1.15rem;
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
     border: 1px solid var(--card-border);
 }
@@ -45,7 +45,7 @@
 }
 
 .cardValue {
-    font-size: 1.5rem;
+    font-size: 1.35rem;
     font-weight: 700;
     color: var(--text-primary);
 }
@@ -107,7 +107,7 @@
 }
 
 .listBody {
-    padding: 1.5rem;
+    padding: 1rem;
 }
 
 .transactionItem {
@@ -115,10 +115,10 @@
     justify-content: space-between;
     align-items: flex-start;
     /* items-start in generic css */
-    padding: 1rem;
+    padding: 0.75rem;
     border: 1px solid var(--card-border);
     border-radius: 0.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
     background-color: var(--glass-bg);
     transition: all 0.2s;
 }
@@ -130,13 +130,13 @@
 }
 
 .transactionIcon {
-    font-size: 1.5rem;
-    margin-right: 1rem;
+    font-size: 1.25rem;
+    margin-right: 0.75rem;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 3rem;
-    height: 3rem;
+    width: 2.5rem;
+    height: 2.5rem;
     background-color: var(--bg-secondary);
     color: var(--text-primary);
     border-radius: 0.5rem;

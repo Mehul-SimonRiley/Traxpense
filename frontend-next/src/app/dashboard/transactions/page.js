@@ -48,6 +48,14 @@ export default function TransactionsPage() {
 
     useEffect(() => {
         fetchData();
+
+        const handleTransactionAdded = () => {
+            fetchTransactions();
+        };
+        window.addEventListener('transactionAdded', handleTransactionAdded);
+        return () => {
+            window.removeEventListener('transactionAdded', handleTransactionAdded);
+        };
     }, []);
 
     useEffect(() => {
