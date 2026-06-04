@@ -76,14 +76,38 @@ export default function CategoriesPage() {
     }
 
     const handleAddCategory = async () => {
-        if (!newCategory.name) {
+        const name = newCategory.name?.trim();
+        const color = newCategory.color?.trim();
+        const icon = newCategory.icon?.trim();
+
+        if (!name) {
             toast.error("Category name is required");
+            return;
+        }
+        if (name.length > 50) {
+            toast.error("Category name must be 50 characters or less");
+            return;
+        }
+        if (!color || !/^#(?:[0-9a-fA-F]{3}){1,2}$/.test(color)) {
+            toast.error("Please enter or select a valid hex color");
+            return;
+        }
+        if (!icon) {
+            toast.error("Category icon (emoji) is required");
+            return;
+        }
+        if (icon.length > 10) {
+            toast.error("Category icon must be 10 characters or less");
             return;
         }
 
         setIsSubmitting(true);
         try {
-            await categoriesAPI.create(newCategory);
+            await categoriesAPI.create({
+                name,
+                color,
+                icon
+            });
             setNewCategory({
                 name: "",
                 color: "#3b82f6",
@@ -103,9 +127,38 @@ export default function CategoriesPage() {
     const handleEditCategory = async () => {
         if (!editingCategory) return;
 
+        const name = editingCategory.name?.trim();
+        const color = editingCategory.color?.trim();
+        const icon = editingCategory.icon?.trim();
+
+        if (!name) {
+            toast.error("Category name is required");
+            return;
+        }
+        if (name.length > 50) {
+            toast.error("Category name must be 50 characters or less");
+            return;
+        }
+        if (!color || !/^#(?:[0-9a-fA-F]{3}){1,2}$/.test(color)) {
+            toast.error("Please enter or select a valid hex color");
+            return;
+        }
+        if (!icon) {
+            toast.error("Category icon (emoji) is required");
+            return;
+        }
+        if (icon.length > 10) {
+            toast.error("Category icon must be 10 characters or less");
+            return;
+        }
+
         setIsSubmitting(true);
         try {
-            await categoriesAPI.update(editingCategory.id, editingCategory);
+            await categoriesAPI.update(editingCategory.id, {
+                name,
+                color,
+                icon
+            });
             setEditingCategory(null);
             fetchCategories();
             toast.success("Category updated successfully");
@@ -116,6 +169,7 @@ export default function CategoriesPage() {
             setIsSubmitting(false);
         }
     };
+
 
     const handleDeleteCategory = async (id) => {
         if (window.confirm("Are you sure you want to delete this category?")) {

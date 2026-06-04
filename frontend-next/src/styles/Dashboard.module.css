@@ -170,14 +170,13 @@
 
 .chartContainer {
     position: relative;
-    /* Essential for Chart.js */
-    height: 350px;
-    /* Increased height */
+    height: 260px;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
 }
+
 
 .transactionList {
     display: flex;

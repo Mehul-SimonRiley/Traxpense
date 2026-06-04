@@ -12,7 +12,7 @@ import styles from '@/styles/Budgets.module.css';
 import { toast } from 'react-toastify';
 
 export default function BudgetsPage() {
-    const [timeframe, setTimeframe] = useState("month");
+    const [timeframe, setTimeframe] = useState("all");
     const [budgets, setBudgets] = useState([]);
     const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -95,18 +95,44 @@ export default function BudgetsPage() {
     };
 
     const handleAddBudget = async () => {
-        if (!newBudget.category_id || !newBudget.amount || !newBudget.start_date || !newBudget.end_date) {
-            toast.error('Please fill all fields');
+        const categoryId = newBudget.category_id;
+        const amountStr = newBudget.amount?.toString().trim();
+        const startDate = newBudget.start_date;
+        const endDate = newBudget.end_date;
+
+        if (!categoryId) {
+            toast.error('Please select a category');
+            return;
+        }
+        if (!amountStr) {
+            toast.error('Amount is required');
+            return;
+        }
+        const amount = parseFloat(amountStr);
+        if (isNaN(amount) || amount <= 0) {
+            toast.error('Budget amount must be a positive number greater than 0');
+            return;
+        }
+        if (!startDate) {
+            toast.error('Start date is required');
+            return;
+        }
+        if (!endDate) {
+            toast.error('End date is required');
+            return;
+        }
+        if (new Date(endDate) < new Date(startDate)) {
+            toast.error('End date must be on or after start date');
             return;
         }
 
         setIsSubmitting(true);
         try {
             const payload = {
-                category_id: parseInt(newBudget.category_id),
-                amount: parseFloat(newBudget.amount),
-                start_date: newBudget.start_date,
-                end_date: newBudget.end_date
+                category_id: parseInt(categoryId),
+                amount: amount,
+                start_date: startDate,
+                end_date: endDate
             };
 
             await budgetsAPI.create(payload);
@@ -130,9 +156,45 @@ export default function BudgetsPage() {
     const handleEditBudget = async () => {
         if (!editingBudget) return;
 
+        const categoryId = editingBudget.category_id;
+        const amountStr = editingBudget.amount?.toString().trim();
+        const startDate = editingBudget.start_date;
+        const endDate = editingBudget.end_date;
+
+        if (!categoryId) {
+            toast.error('Please select a category');
+            return;
+        }
+        if (!amountStr) {
+            toast.error('Amount is required');
+            return;
+        }
+        const amount = parseFloat(amountStr);
+        if (isNaN(amount) || amount <= 0) {
+            toast.error('Budget amount must be a positive number greater than 0');
+            return;
+        }
+        if (!startDate) {
+            toast.error('Start date is required');
+            return;
+        }
+        if (!endDate) {
+            toast.error('End date is required');
+            return;
+        }
+        if (new Date(endDate) < new Date(startDate)) {
+            toast.error('End date must be on or after start date');
+            return;
+        }
+
         setIsSubmitting(true);
         try {
-            await budgetsAPI.update(editingBudget.id, editingBudget);
+            await budgetsAPI.update(editingBudget.id, {
+                category_id: parseInt(categoryId),
+                amount: amount,
+                start_date: startDate,
+                end_date: endDate
+            });
             setEditingBudget(null);
             fetchBudgets();
             toast.success('Budget updated successfully');
@@ -143,6 +205,7 @@ export default function BudgetsPage() {
             setIsSubmitting(false);
         }
     };
+
 
     const handleDeleteBudget = async (id) => {
         if (window.confirm("Are you sure you want to delete this budget?")) {

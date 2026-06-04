@@ -22,12 +22,13 @@ export default function TransactionsPage() {
         netFlow: 0,
     });
     const [filters, setFilters] = useState({
-        dateRange: "month",
+        dateRange: "all",
         category: "all",
         type: "all",
         minAmount: "",
         maxAmount: "",
     });
+
     const [customDateRange, setCustomDateRange] = useState({
         start_date: new Date().toISOString().split("T")[0],
         end_date: new Date().toISOString().split("T")[0],
@@ -124,8 +125,34 @@ export default function TransactionsPage() {
     };
 
     const handleAddTransaction = async () => {
-        if (!newTransaction.amount || !newTransaction.description) {
-            toast.error("Please fill in required fields");
+        const description = newTransaction.description?.trim();
+        const amountStr = newTransaction.amount?.toString().trim();
+        const categoryId = newTransaction.category_id;
+        const date = newTransaction.date;
+
+        if (!description) {
+            toast.error("Description is required");
+            return;
+        }
+        if (description.length > 200) {
+            toast.error("Description must be 200 characters or less");
+            return;
+        }
+        if (!amountStr) {
+            toast.error("Amount is required");
+            return;
+        }
+        const amount = parseFloat(amountStr);
+        if (isNaN(amount) || amount <= 0) {
+            toast.error("Amount must be a positive number greater than 0");
+            return;
+        }
+        if (!categoryId) {
+            toast.error("Please select a category");
+            return;
+        }
+        if (!date) {
+            toast.error("Please select a valid date");
             return;
         }
 
@@ -135,8 +162,9 @@ export default function TransactionsPage() {
         const optimisticTransaction = {
             id: tempId,
             ...newTransaction,
-            amount: parseFloat(newTransaction.amount),
-            category_id: parseInt(newTransaction.category_id),
+            description,
+            amount,
+            category_id: parseInt(categoryId),
             isOptimistic: true
         };
 
@@ -144,12 +172,12 @@ export default function TransactionsPage() {
 
         try {
             const transactionData = {
-                description: newTransaction.description,
-                amount: parseFloat(newTransaction.amount),
-                date: newTransaction.date,
-                category_id: parseInt(newTransaction.category_id),
+                description,
+                amount,
+                date,
+                category_id: parseInt(categoryId),
                 type: newTransaction.type,
-                notes: newTransaction.notes
+                notes: newTransaction.notes?.trim() || ""
             };
 
             const response = await transactionsAPI.create(transactionData);
@@ -180,16 +208,62 @@ export default function TransactionsPage() {
     const handleEditTransaction = async () => {
         if (!editingTransaction) return;
 
+        const description = editingTransaction.description?.trim();
+        const amountStr = editingTransaction.amount?.toString().trim();
+        const categoryId = editingTransaction.category_id;
+        const date = editingTransaction.date;
+
+        if (!description) {
+            toast.error("Description is required");
+            return;
+        }
+        if (description.length > 200) {
+            toast.error("Description must be 200 characters or less");
+            return;
+        }
+        if (!amountStr) {
+            toast.error("Amount is required");
+            return;
+        }
+        const amount = parseFloat(amountStr);
+        if (isNaN(amount) || amount <= 0) {
+            toast.error("Amount must be a positive number greater than 0");
+            return;
+        }
+        if (!categoryId) {
+            toast.error("Please select a category");
+            return;
+        }
+        if (!date) {
+            toast.error("Please select a valid date");
+            return;
+        }
+
         setIsSubmitting(true);
         const transactionId = editingTransaction.id;
         const originalTransaction = transactions.find(t => t.id === transactionId);
 
+        const updatedTransaction = {
+            ...editingTransaction,
+            description,
+            amount,
+            category_id: parseInt(categoryId),
+            notes: editingTransaction.notes?.trim() || ""
+        };
+
         setTransactions(prev =>
-            prev.map(t => t.id === transactionId ? { ...editingTransaction, isOptimistic: true } : t)
+            prev.map(t => t.id === transactionId ? { ...updatedTransaction, isOptimistic: true } : t)
         );
 
         try {
-            const response = await transactionsAPI.update(transactionId, editingTransaction);
+            const response = await transactionsAPI.update(transactionId, {
+                description,
+                amount,
+                date,
+                category_id: parseInt(categoryId),
+                type: editingTransaction.type,
+                notes: editingTransaction.notes?.trim() || ""
+            });
             setTransactions(prev =>
                 prev.map(t => t.id === transactionId ? response : t)
             );
@@ -205,6 +279,7 @@ export default function TransactionsPage() {
             setIsSubmitting(false);
         }
     };
+
 
     const handleDeleteTransaction = async (id) => {
         if (window.confirm("Are you sure you want to delete this transaction?")) {

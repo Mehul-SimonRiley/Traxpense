@@ -19,10 +19,27 @@ export default function LoginPage() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError('');
+
+        const email = formData.email.trim();
+        const password = formData.password;
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setError('Please enter a valid email address');
+            toast.error('Please enter a valid email address');
+            return;
+        }
+
+        if (!password || password.length < 6) {
+            setError('Password must be at least 6 characters');
+            toast.error('Password must be at least 6 characters');
+            return;
+        }
+
         setLoading(true);
 
         try {
-            await login(formData.email, formData.password);
+            await login(email, password);
             toast.success('Welcome back!');
         } catch (err) {
             setError(err.message || 'Failed to login');
@@ -31,6 +48,7 @@ export default function LoginPage() {
             setLoading(false);
         }
     };
+
 
     return (
         <div className={styles.container}>

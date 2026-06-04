@@ -24,8 +24,45 @@ export default function RegisterPage() {
         e.preventDefault();
         setError('');
 
-        if (formData.password !== formData.confirmPassword) {
+        const name = formData.name.trim();
+        const email = formData.email.trim();
+        const password = formData.password;
+        const confirmPassword = formData.confirmPassword;
+
+        if (!name || name.length < 2) {
+            setError('Full Name must be at least 2 characters');
+            toast.error('Full Name must be at least 2 characters');
+            return;
+        }
+
+        if (name.length > 100) {
+            setError('Full Name must be under 100 characters');
+            toast.error('Full Name must be under 100 characters');
+            return;
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            setError('Please enter a valid email address');
+            toast.error('Please enter a valid email address');
+            return;
+        }
+
+        if (!password || password.length < 6) {
+            setError('Password must be at least 6 characters');
+            toast.error('Password must be at least 6 characters');
+            return;
+        }
+
+        if (password.length > 72) {
+            setError('Password must be under 72 characters');
+            toast.error('Password must be under 72 characters');
+            return;
+        }
+
+        if (password !== confirmPassword) {
             setError('Passwords do not match');
+            toast.error('Passwords do not match');
             return;
         }
 
@@ -33,14 +70,14 @@ export default function RegisterPage() {
 
         try {
             await register({
-                name: formData.name,
-                email: formData.email,
-                password: formData.password
+                name,
+                email,
+                password
             });
             toast.success('Registration successful! Logging you in...');
 
             // Auto login after register
-            await login(formData.email, formData.password);
+            await login(email, password);
         } catch (err) {
             setError(err.message || 'Registration failed');
             toast.error(err.message || 'Registration failed');
@@ -48,6 +85,7 @@ export default function RegisterPage() {
             setLoading(false);
         }
     };
+
 
     return (
         <div className={styles.container}>

@@ -58,8 +58,8 @@ export default function SettingsPage() {
         { id: "profile", label: "Profile", icon: FiUser },
         { id: "security", label: "Security", icon: FiShield },
         { id: "preferences", label: "Preferences", icon: FiSettings },
-        { id: "notifications", label: "Notifications", icon: FiBell },
     ];
+
 
     const fetchSettings = useCallback(async () => {
         try {
@@ -115,34 +115,100 @@ export default function SettingsPage() {
 
     const saveSettings = async (section, data) => {
         try {
-            setIsLoading(true);
             setSaveStatus(null);
             setErrorMessage("");
 
             switch (section) {
-                case 'profile':
+                case 'profile': {
+                    const firstName = data.firstName?.trim();
+                    const lastName = data.lastName?.trim();
+                    const email = data.email?.trim();
+                    const phone = data.phone?.trim();
+                    const bio = data.bio?.trim();
+                    const occupation = data.occupation?.trim();
+                    const location = data.location?.trim();
+
+                    if (!firstName || firstName.length < 2) {
+                        toast.error("First Name must be at least 2 characters");
+                        return;
+                    }
+                    if (!lastName || lastName.length < 2) {
+                        toast.error("Last Name must be at least 2 characters");
+                        return;
+                    }
+                    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                    if (!email || !emailRegex.test(email)) {
+                        toast.error("Please enter a valid email address");
+                        return;
+                    }
+                    if (phone && phone.length > 20) {
+                        toast.error("Phone number must be 20 characters or less");
+                        return;
+                    }
+                    if (bio && bio.length > 500) {
+                        toast.error("Bio must be 500 characters or less");
+                        return;
+                    }
+                    if (data.dateOfBirth) {
+                        const dob = new Date(data.dateOfBirth);
+                        if (dob > new Date()) {
+                            toast.error("Date of Birth cannot be in the future");
+                            return;
+                        }
+                    }
+
+                    setIsLoading(true);
                     await settingsService.updateProfile({
-                        name: `${data.firstName} ${data.lastName}`.trim(),
-                        email: data.email,
-                        phone: data.phone,
-                        bio: data.bio,
-                        date_of_birth: data.dateOfBirth,
-                        occupation: data.occupation,
-                        location: data.location,
+                        name: `${firstName} ${lastName}`,
+                        email,
+                        phone: phone || null,
+                        bio: bio || null,
+                        date_of_birth: data.dateOfBirth || null,
+                        occupation: occupation || null,
+                        location: location || null,
                     });
                     break;
-                case 'security':
+                }
+                case 'security': {
+                    const sessionTimeoutInt = parseInt(data.sessionTimeout);
+                    if (isNaN(sessionTimeoutInt) || sessionTimeoutInt < 1 || sessionTimeoutInt > 1440) {
+                        toast.error("Session Timeout must be between 1 and 1440 minutes");
+                        return;
+                    }
+
+                    if (data.newPassword || data.currentPassword || data.confirmPassword) {
+                        if (!data.currentPassword) {
+                            toast.error("Current password is required to change password");
+                            return;
+                        }
+                        if (!data.newPassword || data.newPassword.length < 6) {
+                            toast.error("New password must be at least 6 characters");
+                            return;
+                        }
+                        if (data.newPassword.length > 72) {
+                            toast.error("New password must be 72 characters or less");
+                            return;
+                        }
+                        if (data.newPassword !== data.confirmPassword) {
+                            toast.error("New password and confirm password do not match");
+                            return;
+                        }
+                    }
+
+                    setIsLoading(true);
                     await settingsService.updateSecurity({
-                        current_password: data.currentPassword,
-                        new_password: data.newPassword,
+                        current_password: data.currentPassword || null,
+                        new_password: data.newPassword || null,
                         two_factor_enabled: data.twoFactorEnabled,
                         login_notifications: data.loginNotifications,
-                        session_timeout: parseInt(data.sessionTimeout),
+                        session_timeout: sessionTimeoutInt,
                     });
                     // Clear password fields on success
                     setSecurityData(prev => ({ ...prev, currentPassword: '', newPassword: '', confirmPassword: '' }));
                     break;
+                }
                 case 'preferences':
+                    setIsLoading(true);
                     await settingsService.updatePreferences({
                         language: data.language,
                         date_format: data.dateFormat,
@@ -151,6 +217,7 @@ export default function SettingsPage() {
                     });
                     break;
                 case 'notifications':
+                    setIsLoading(true);
                     await settingsService.updateNotifications({
                         email_notifications: data.emailNotifications,
                         push_notifications: data.pushNotifications,
@@ -166,6 +233,7 @@ export default function SettingsPage() {
             toast.success('Settings saved successfully!');
             setTimeout(() => setSaveStatus(null), 3000);
         } catch (error) {
+
             console.error(`Error saving ${section} settings:`, error);
             setSaveStatus('error');
             const msg = error.response?.data?.message || error.message || "Failed to save settings";
@@ -279,7 +347,7 @@ export default function SettingsPage() {
                                         </div>
                                         <label className={styles.uploadButton}>
                                             <FiCamera className="w-4 h-4 text-gray-600" />
-                                            <input type="file" accept="image/*" className="hidden" onChange={handleAvatarUpload} />
+                                            <input type="file" accept="image/*" style={{ display: 'none' }} onChange={handleAvatarUpload} />
                                         </label>
                                     </div>
                                     <div>
@@ -400,51 +468,7 @@ export default function SettingsPage() {
                         </motion.div>
                     )}
 
-                    {/* Notifications Section */}
-                    {activeSection === "notifications" && (
-                        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ duration: 0.3 }}>
-                            <div className={styles.contentHeader}>
-                                <h2 className={styles.sectionTitle}>Notifications</h2>
-                                <p className={styles.sectionDescription}>Control your email and push notifications</p>
-                            </div>
-                            <div className={styles.contentBody}>
-                                <div className="space-y-6">
-                                    <div>
-                                        <h3 className="font-medium text-[var(--text-primary)] mb-4">Email Notifications</h3>
-                                        <div className="space-y-3">
-                                            {Object.entries(notificationData.emailNotifications).map(([key, value]) => (
-                                                <div key={key} className={styles.notificationItem}>
-                                                    <div className={styles.notificationInfo}>
-                                                        <h4 style={{ textTransform: 'capitalize' }}>{key.replace(/([A-Z])/g, " $1")}</h4>
-                                                    </div>
-                                                    <label className={styles.toggleSwitch}>
-                                                        <input
-                                                            type="checkbox"
-                                                            className={styles.toggleInput}
-                                                            checked={value}
-                                                            onChange={(e) => setNotificationData({
-                                                                ...notificationData,
-                                                                emailNotifications: {
-                                                                    ...notificationData.emailNotifications,
-                                                                    [key]: e.target.checked
-                                                                }
-                                                            })}
-                                                        />
-                                                        <span className={styles.toggleSlider}></span>
-                                                    </label>
-                                                </div>
-                                            ))}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className={styles.footer}>
-                                <AnimatedButton onClick={() => saveSettings('notifications', notificationData)} disabled={isLoading}>
-                                    {isLoading ? 'Saving...' : 'Save Notifications'}
-                                </AnimatedButton>
-                            </div>
-                        </motion.div>
-                    )}
+
                 </div>
             </div>
         </motion.div>
