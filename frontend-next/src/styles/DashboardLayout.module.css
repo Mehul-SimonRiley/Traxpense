@@ -13,7 +13,7 @@
     display: flex;
     flex: 1;
     flex-direction: row;
-    height: calc(100vh - 80px);
+    height: calc(100vh - 70px);
     overflow: hidden;
     width: 100%;
 }
@@ -108,7 +108,7 @@
 
 /* Header Styles */
 .header {
-    height: 80px;
+    height: 70px;
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--input-border);
     display: flex;
@@ -167,8 +167,8 @@
 
 .logoIcon {
     color: var(--accent-primary);
-    width: 44px;
-    height: 44px;
+    width: 136px;
+    height: 136px;
 }
 
 .headerRight {
@@ -292,4 +292,34 @@
 
 .navItem.hiddenLabel .navIcon {
     margin: 0;
-}
+}
+
+.sidebarHeader {
+    display: flex;
+    justify-content: flex-end;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+}
+
+.sidebarClosed .sidebarHeader {
+    justify-content: center;
+    padding: 0.75rem 0;
+}
+
+.sidebarToggle {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.5rem;
+    border-radius: 8px;
+    transition: all 0.2s;
+}
+
+.sidebarToggle:hover {
+    background-color: rgba(255, 255, 255, 0.05);
+    color: var(--text-primary);
+}

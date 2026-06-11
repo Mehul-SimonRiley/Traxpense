@@ -1,13 +1,13 @@
 "use client";
 
-import { FiMenu, FiSun, FiMoon } from 'react-icons/fi';
+import { FiSun, FiMoon } from 'react-icons/fi';
 import styles from '@/styles/DashboardLayout.module.css';
 import { useAuth } from '@/context/AuthContext';
 import { useTheme } from '@/context/ThemeContext';
 import { useRouter } from 'next/navigation';
 import { getAvatarUrl } from '@/utils/format';
 
-export default function Header({ toggleSidebar, isOpen }) {
+export default function Header() {
     const { user } = useAuth();
     const { theme, toggleTheme } = useTheme();
     const router = useRouter();
@@ -25,18 +25,14 @@ export default function Header({ toggleSidebar, isOpen }) {
 
     return (
         <header className={styles.header}>
-            <div className={styles.headerLeft}>
-                <button onClick={toggleSidebar} className={styles.menuButton}>
-                    <FiMenu size={24} />
-                </button>
+            <div className={styles.headerLeft} style={{ marginLeft: '-3.0rem' }}>
                 <div className={styles.logo}>
-                    <img 
-                        src={theme === 'dark' ? '/logo_white.png' : '/logo_black.png'} 
-                        alt="Traxpense Logo" 
+                    <img
+                        src={theme === 'dark' ? '/logo_white.png' : '/logo_black.png'}
+                        alt="Traxpense Logo"
                         className={styles.logoIcon}
-                        style={{ width: '44px', height: '44px', objectFit: 'contain' }}
+                        style={{ width: '136px', height: '136px', objectFit: 'contain' }}
                     />
-                    <span>Traxpense</span>
                 </div>
             </div>
 

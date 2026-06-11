@@ -105,12 +105,9 @@ export default function DashboardLayout({ children }) {
 
     return (
         <div className={styles.dashboardContainer}>
-            <Header
-                isOpen={sidebarOpen}
-                toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
-            />
+            <Header />
             <div className={styles.dashboardBody}>
-                <Sidebar isOpen={sidebarOpen} />
+                <Sidebar isOpen={sidebarOpen} toggleSidebar={() => setSidebarOpen(!sidebarOpen)} />
                 <div className={styles.mainContent}>
                     <main className={styles.scrollArea}>
                         {children}
