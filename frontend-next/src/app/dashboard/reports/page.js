@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { FiBarChart2, FiPieChart, FiTrendingUp } from "react-icons/fi";
 import { getExpenseVsIncome, getCategoryBreakdown, getSpendingTrends } from '@/services/reportsService';
+import { formatCurrency } from '@/utils/format';
 import { Bar, Pie, Line } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
@@ -183,15 +184,15 @@ export default function ReportsPage() {
                                     <div className={styles.statsGrid} style={{ marginBottom: '1.5rem' }}>
                                         <div className={styles.statItem}>
                                             <div className={styles.statLabel}>Total Income</div>
-                                            <div className={`${styles.statValue} ${styles.textIncome}`}>₹{safeData.totalIncome}</div>
+                                            <div className={`${styles.statValue} ${styles.textIncome}`}>{formatCurrency(safeData.totalIncome)}</div>
                                         </div>
                                         <div className={styles.statItem}>
                                             <div className={styles.statLabel}>Total Expenses</div>
-                                            <div className={`${styles.statValue} ${styles.textExpense}`}>₹{safeData.totalExpenses}</div>
+                                            <div className={`${styles.statValue} ${styles.textExpense}`}>{formatCurrency(safeData.totalExpenses)}</div>
                                         </div>
                                         <div className={styles.statItem}>
                                             <div className={styles.statLabel}>Net Savings</div>
-                                            <div className={styles.statValue}>₹{safeData.netSavings}</div>
+                                            <div className={styles.statValue}>{formatCurrency(safeData.netSavings)}</div>
                                         </div>
                                         <div className={styles.statItem}>
                                             <div className={styles.statLabel}>Savings Rate</div>
@@ -214,9 +215,9 @@ export default function ReportsPage() {
                                                 {(safeData.monthlyComparison || []).map((month) => (
                                                     <tr key={month.name}>
                                                         <td>{month.name}</td>
-                                                        <td className={styles.textIncome}>₹{month.income}</td>
-                                                        <td className={styles.textExpense}>₹{month.expenses}</td>
-                                                        <td>₹{month.savings}</td>
+                                                        <td className={styles.textIncome}>{formatCurrency(month.income)}</td>
+                                                        <td className={styles.textExpense}>{formatCurrency(month.expenses)}</td>
+                                                        <td>{formatCurrency(month.savings)}</td>
                                                     </tr>
                                                 ))}
                                             </tbody>
@@ -268,7 +269,7 @@ export default function ReportsPage() {
                                                 {(safeData.topCategories || []).map((category) => (
                                                     <tr key={category.name}>
                                                         <td>{category.name}</td>
-                                                        <td className={styles.textExpense}>₹{category.amount}</td>
+                                                        <td className={styles.textExpense}>{formatCurrency(category.amount)}</td>
                                                         <td>{category.percentage}%</td>
                                                     </tr>
                                                 ))}
@@ -321,7 +322,7 @@ export default function ReportsPage() {
                                                 {(safeData.monthlySpending || []).map((month) => (
                                                     <tr key={month.name}>
                                                         <td>{month.name}</td>
-                                                        <td className={styles.textExpense}>₹{month.amount}</td>
+                                                        <td className={styles.textExpense}>{formatCurrency(month.amount)}</td>
                                                         <td>{month.change}</td>
                                                     </tr>
                                                 ))}
@@ -344,8 +345,8 @@ export default function ReportsPage() {
                                                 {(safeData.categoryTrends || []).map((trend) => (
                                                     <tr key={trend.category}>
                                                         <td>{trend.category}</td>
-                                                        <td>₹{trend.thisMonth}</td>
-                                                        <td>₹{trend.lastMonth}</td>
+                                                        <td>{formatCurrency(trend.thisMonth)}</td>
+                                                        <td>{formatCurrency(trend.lastMonth)}</td>
                                                         <td>{trend.change}</td>
                                                     </tr>
                                                 ))}

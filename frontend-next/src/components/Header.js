@@ -34,7 +34,7 @@ export default function Header({ toggleSidebar, isOpen }) {
                         src={theme === 'dark' ? '/logo_white.png' : '/logo_black.png'} 
                         alt="Traxpense Logo" 
                         className={styles.logoIcon}
-                        style={{ width: '24px', height: '24px', objectFit: 'contain' }}
+                        style={{ width: '32px', height: '32px', objectFit: 'contain' }}
                     />
                     <span>Traxpense</span>
                 </div>

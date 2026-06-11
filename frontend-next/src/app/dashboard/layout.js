@@ -105,22 +105,24 @@ export default function DashboardLayout({ children }) {
 
     return (
         <div className={styles.dashboardContainer}>
-            <Sidebar isOpen={sidebarOpen} />
-            <div className={styles.mainContent}>
-                <Header
-                    isOpen={sidebarOpen}
-                    toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
-                />
-                <main className={styles.scrollArea}>
-                    {children}
-                </main>
-                <button 
-                    className={styles.fab} 
-                    onClick={() => setIsQuickAddOpen(true)} 
-                    title="Quick Add Transaction"
-                >
-                    <FiPlus />
-                </button>
+            <Header
+                isOpen={sidebarOpen}
+                toggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+            />
+            <div className={styles.dashboardBody}>
+                <Sidebar isOpen={sidebarOpen} />
+                <div className={styles.mainContent}>
+                    <main className={styles.scrollArea}>
+                        {children}
+                    </main>
+                    <button 
+                        className={styles.fab} 
+                        onClick={() => setIsQuickAddOpen(true)} 
+                        title="Quick Add Transaction"
+                    >
+                        <FiPlus />
+                    </button>
+                </div>
             </div>
 
             {/* Quick Add Modal */}
