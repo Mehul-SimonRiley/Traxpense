@@ -13,7 +13,7 @@
     display: flex;
     flex: 1;
     flex-direction: row;
-    height: calc(100vh - 64px);
+    height: calc(100vh - 80px);
     overflow: hidden;
     width: 100%;
 }
@@ -77,7 +77,7 @@
 }
 
 .navItemActive {
-    background: linear-gradient(135deg, var(--accent-primary) 0%, var(--accent-hover) 100%);
+    background: linear-gradient(135deg, var(--accent-primary) 0%, #a855f7 100%);
     color: white;
     opacity: 1;
     box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
@@ -108,7 +108,7 @@
 
 /* Header Styles */
 .header {
-    height: 64px;
+    height: 80px;
     background: var(--bg-secondary);
     border-bottom: 1px solid var(--input-border);
     display: flex;
@@ -167,8 +167,8 @@
 
 .logoIcon {
     color: var(--accent-primary);
-    width: 32px;
-    height: 32px;
+    width: 44px;
+    height: 44px;
 }
 
 .headerRight {
