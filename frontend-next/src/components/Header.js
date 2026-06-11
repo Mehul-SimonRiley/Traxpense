@@ -1,6 +1,6 @@
 "use client";
 
-import { FiMenu, FiDollarSign, FiSun, FiMoon } from 'react-icons/fi';
+import { FiMenu, FiSun, FiMoon } from 'react-icons/fi';
 import styles from '@/styles/DashboardLayout.module.css';
 import { useAuth } from '@/context/AuthContext';
 import { useTheme } from '@/context/ThemeContext';
@@ -30,7 +30,12 @@ export default function Header({ toggleSidebar, isOpen }) {
                     <FiMenu size={24} />
                 </button>
                 <div className={styles.logo}>
-                    <FiDollarSign className={styles.logoIcon} />
+                    <img 
+                        src={theme === 'dark' ? '/logo_white.png' : '/logo_black.png'} 
+                        alt="Traxpense Logo" 
+                        className={styles.logoIcon}
+                        style={{ width: '24px', height: '24px', objectFit: 'contain' }}
+                    />
                     <span>Traxpense</span>
                 </div>
             </div>
