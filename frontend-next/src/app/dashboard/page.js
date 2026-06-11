@@ -10,13 +10,14 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import { motion } from "framer-motion";
 import dashboardService from '@/services/dashboardService';
 import Modal from '@/components/Modal';
+import CustomSelect from '@/components/CustomSelect';
 import AnimatedButton from '@/components/AnimatedButton';
 import styles from '@/styles/Dashboard.module.css';
 import { toast } from 'react-toastify';
 
 export default function DashboardPage() {
     const [isLoading, setIsLoading] = useState(true);
-    const [timeframe, setTimeframe] = useState("all");
+    const [timeframe, setTimeframe] = useState("month");
     const [showCustomPeriod, setShowCustomPeriod] = useState(false);
     const [customDateRange, setCustomDateRange] = useState({
         start_date: "",
@@ -84,33 +85,29 @@ export default function DashboardPage() {
         } finally {
             setIsLoading(false);
         }
-    }, [timeframe, customDateRange]);
+    }, [timeframe, customDateRange.start_date, customDateRange.end_date]);
 
-    const fetchDashboardDataRef = useRef(fetchDashboardData);
     useEffect(() => {
-        fetchDashboardDataRef.current = fetchDashboardData;
+        fetchDashboardData();
     }, [fetchDashboardData]);
 
     useEffect(() => {
-        fetchDashboardDataRef.current();
-
         const handleTransactionAdded = () => {
-            fetchDashboardDataRef.current();
+            fetchDashboardData();
         };
         window.addEventListener('transactionAdded', handleTransactionAdded);
         return () => {
             window.removeEventListener('transactionAdded', handleTransactionAdded);
         };
-    }, []);
+    }, [fetchDashboardData]);
 
     const handleTimeframeChange = (newTimeframe) => {
-        if (newTimeframe !== "all") {
-            toast.info("Timeframe filtering is under development. Showing All Time data.");
-            setTimeframe("all");
+        setTimeframe(newTimeframe);
+        if (newTimeframe === 'custom') {
+            setShowCustomPeriod(true);
         } else {
-            setTimeframe(newTimeframe);
+            setShowCustomPeriod(false);
         }
-        setShowCustomPeriod(false);
     };
 
     const handleCustomPeriodSubmit = () => {
@@ -167,6 +164,27 @@ export default function DashboardPage() {
         return trends;
     };
 
+    const getTrendLabels = () => {
+        const trends = dashboardData.expenseTrends || [];
+        if (trends.length >= 3) {
+            return trends.map(t => {
+                if (t.month) {
+                    const [year, month] = t.month.split('-');
+                    const dateObj = new Date(year, parseInt(month) - 1, 1);
+                    return dateObj.toLocaleString('default', { month: 'short' });
+                }
+                return '';
+            });
+        }
+        const labels = [];
+        const today = new Date();
+        for (let i = 5; i >= 0; i--) {
+            const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
+            labels.push(d.toLocaleString('default', { month: 'short' }));
+        }
+        return labels;
+    };
+
     if (isLoading) {
         return (
             <div className="h-full w-full flex items-center justify-center min-h-[50vh]">
@@ -183,17 +201,17 @@ export default function DashboardPage() {
         >
             <div className={styles.pageHeader}>
                 <h1 className={styles.pageTitle}>Expense Dashboard</h1>
-                <div>
-                    <select
-                        className={styles.select}
+                <div style={{ width: '160px' }}>
+                    <CustomSelect
                         value={timeframe}
-                        onChange={(e) => handleTimeframeChange(e.target.value)}
-                    >
-                        <option value="all">All Time</option>
-                        <option value="today">Today</option>
-                        <option value="month">This Month</option>
-                        <option value="custom">Custom Period</option>
-                    </select>
+                        onChange={handleTimeframeChange}
+                        options={[
+                            { value: "month", label: "This Month" },
+                            { value: "all", label: "All Time" },
+                            { value: "today", label: "Today" },
+                            { value: "custom", label: "Custom Period" }
+                        ]}
+                    />
                 </div>
             </div>
 
@@ -212,6 +230,7 @@ export default function DashboardPage() {
                         trend={dashboardData.summary.balanceTrend || '0%'}
                         isPositive={!String(dashboardData.summary.balanceTrend).includes('-')}
                         dataPoints={getBalanceTrends()}
+                        labels={getTrendLabels()}
                         colorHex="#fbbf24"
                     />
                 </div>
@@ -223,6 +242,7 @@ export default function DashboardPage() {
                         trend={dashboardData.summary.incomeTrend || '0%'}
                         isPositive={!String(dashboardData.summary.incomeTrend).includes('-')}
                         dataPoints={getIncomeTrends()}
+                        labels={getTrendLabels()}
                         colorHex="#60a5fa"
                     />
                 </div>
@@ -234,6 +254,7 @@ export default function DashboardPage() {
                         trend={dashboardData.summary.expenseTrend || '0%'}
                         isPositive={String(dashboardData.summary.expenseTrend).includes('-')} // Less expense is positive
                         dataPoints={dashboardData.expenseTrends?.map(d => d.amount) || [20, 15, 25, 18, 22, 10, 5]}
+                        labels={getTrendLabels()}
                         colorHex="#34d399"
                     />
                 </div>
@@ -245,6 +266,7 @@ export default function DashboardPage() {
                         trend={dashboardData.summary.savingsRate || '0%'}
                         isPositive={true}
                         dataPoints={getSavingsTrends()}
+                        labels={getTrendLabels()}
                         colorHex="#a78bfa"
                     />
                 </div>

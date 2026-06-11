@@ -58,14 +58,64 @@
     position: absolute;
     top: 100%;
     right: 0;
-    margin-top: 0.5rem;
+    margin-top: 0.65rem;
     background: var(--card-bg);
-    padding: 1rem;
-    border-radius: 0.5rem;
-    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-    z-index: 10;
-    width: 300px;
-    border: 1px solid var(--card-border);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    padding: 1.25rem;
+    border-radius: 1rem;
+    box-shadow: var(--shadow-lg);
+    z-index: 100;
+    width: 320px;
+    border: 1px solid var(--input-border);
+    animation: fadeIn 0.2s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.dropdownHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.dropdownTitle {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin: 0;
+}
+
+.closeBtn {
+    background: transparent;
+    border: none;
+    outline: none;
+    color: var(--text-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 1.85rem;
+    height: 1.85rem;
+    border-radius: 50%;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-color: rgba(128, 128, 128, 0.08);
+}
+
+.closeBtn:hover {
+    color: #ef4444;
+    background-color: rgba(239, 68, 68, 0.1);
+    transform: rotate(90deg);
 }
 
 .filterGroup {
@@ -77,18 +127,36 @@
     font-size: 0.875rem;
     font-weight: 500;
     color: var(--text-secondary);
-    margin-bottom: 0.25rem;
+    margin-bottom: 0.35rem;
 }
 
 .select,
 .input {
     width: 100%;
-    padding: 0.5rem;
-    border-radius: 0.375rem;
-    border: 1px solid var(--input-border);
-    background-color: var(--input-bg);
+    padding: 0.65rem 0.85rem;
+    border-radius: 0.65rem;
+    border: 1px solid var(--card-border);
+    background-color: rgba(255, 255, 255, 0.03);
     color: var(--text-primary);
     outline: none;
+    transition: all 0.25s ease;
+}
+
+.select {
+    padding-right: 2.5rem;
+    appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23ffffff' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 0.85rem center;
+    background-size: 0.9em;
+    cursor: pointer;
+}
+
+.select:focus,
+.input:focus {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    background-color: rgba(255, 255, 255, 0.08);
 }
 
 .transactionList {

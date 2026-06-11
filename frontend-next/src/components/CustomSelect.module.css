@@ -1,0 +1,95 @@
+.selectContainer {
+    position: relative;
+    width: 100%;
+}
+
+.selectButton {
+    width: 100%;
+    padding: 0.65rem 1rem;
+    border-radius: 0.65rem;
+    border: 1px solid var(--input-border);
+    background-color: var(--input-bg);
+    color: var(--text-primary);
+    outline: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: all 0.25s ease;
+    text-align: left;
+}
+
+.selectButton:focus {
+    border-color: var(--accent-primary);
+    box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+}
+
+.selectedValue {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.chevron {
+    color: var(--text-secondary);
+    transition: transform 0.25s ease;
+    flex-shrink: 0;
+    margin-left: 0.5rem;
+}
+
+.chevronOpen {
+    transform: rotate(180deg);
+}
+
+.optionsDropdown {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    margin-top: 0.4rem;
+    background: var(--input-bg);
+    border: 1px solid var(--input-border);
+    border-radius: 0.65rem;
+    box-shadow: var(--shadow-lg);
+    z-index: 200;
+    max-height: 250px;
+    overflow-y: auto;
+    padding: 0.25rem;
+    animation: slideDown 0.15s ease-out;
+}
+
+.optionButton {
+    width: 100%;
+    padding: 0.65rem 0.85rem;
+    background: transparent;
+    border: none;
+    border-radius: 0.45rem;
+    color: var(--text-primary);
+    font-size: 0.875rem;
+    font-family: inherit;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.optionButton:hover {
+    background-color: rgba(128, 128, 128, 0.1);
+}
+
+.optionActive {
+    background-color: var(--accent-primary) !important;
+    color: var(--bg-primary) !important;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-4px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

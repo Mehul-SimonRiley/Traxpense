@@ -8,11 +8,19 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import { motion, AnimatePresence } from "framer-motion";
 import AnimatedButton from '@/components/AnimatedButton';
 import Modal from '@/components/Modal';
+import CustomSelect from '@/components/CustomSelect';
 import styles from '@/styles/Budgets.module.css';
 import { toast } from 'react-toastify';
 
+const formatLocalDate = (dateObj) => {
+    const y = dateObj.getFullYear();
+    const m = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const d = String(dateObj.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+};
+
 export default function BudgetsPage() {
-    const [timeframe, setTimeframe] = useState("all");
+    const [timeframe, setTimeframe] = useState("month");
     const [budgets, setBudgets] = useState([]);
     const [categories, setCategories] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
@@ -21,14 +29,14 @@ export default function BudgetsPage() {
     const [newBudget, setNewBudget] = useState({
         category_id: "",
         amount: "",
-        start_date: new Date().toISOString().split('T')[0],
-        end_date: new Date().toISOString().split('T')[0]
+        start_date: formatLocalDate(new Date()),
+        end_date: formatLocalDate(new Date())
     });
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [showCustomPeriod, setShowCustomPeriod] = useState(false);
     const [customDateRange, setCustomDateRange] = useState({
-        start_date: new Date().toISOString().split('T')[0],
-        end_date: new Date().toISOString().split('T')[0]
+        start_date: formatLocalDate(new Date()),
+        end_date: formatLocalDate(new Date())
     });
 
     useEffect(() => {
@@ -77,10 +85,12 @@ export default function BudgetsPage() {
                     new Date(budget.start_date) <= endOfNextMonth &&
                     new Date(budget.end_date) >= startOfNextMonth
                 );
-            } else if (timeframe === 'custom') {
+            } else if (timeframe === 'previous-month') {
+                const startOfPrevMonth = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+                const endOfPrevMonth = new Date(now.getFullYear(), now.getMonth(), 0);
                 data = data.filter(budget =>
-                    new Date(budget.start_date) <= new Date(customDateRange.end_date) &&
-                    new Date(budget.end_date) >= new Date(customDateRange.start_date)
+                    new Date(budget.start_date) <= endOfPrevMonth &&
+                    new Date(budget.end_date) >= startOfPrevMonth
                 );
             } else if (timeframe === 'all') {
                 // No filtering needed for 'all'
@@ -149,8 +159,8 @@ export default function BudgetsPage() {
             setNewBudget({
                 category_id: "",
                 amount: "",
-                start_date: new Date().toISOString().split('T')[0],
-                end_date: new Date().toISOString().split('T')[0]
+                start_date: formatLocalDate(new Date()),
+                end_date: formatLocalDate(new Date())
             });
             setShowAddForm(false);
             fetchBudgets();
@@ -232,16 +242,6 @@ export default function BudgetsPage() {
 
     const handleTimeframeChange = (value) => {
         setTimeframe(value);
-        if (value === 'custom') {
-            setShowCustomPeriod(true);
-        } else {
-            setShowCustomPeriod(false);
-            // Reset custom date range when switching away from custom
-            setCustomDateRange({
-                start_date: new Date().toISOString().split('T')[0],
-                end_date: new Date().toISOString().split('T')[0]
-            });
-        }
     };
 
     if (isLoading && budgets.length === 0) {
@@ -265,44 +265,17 @@ export default function BudgetsPage() {
             <div className={styles.pageHeader}>
                 <h1 className={styles.pageTitle}>Budget Planner</h1>
                 <div className={styles.headerActions}>
-                    <div className="flex flex-col sm:flex-row gap-3 items-center">
-                        <select
-                            className={styles.select}
+                    <div className="flex flex-col sm:flex-row gap-3 items-center" style={{ width: '180px' }}>
+                        <CustomSelect
                             value={timeframe}
-                            onChange={(e) => handleTimeframeChange(e.target.value)}
-                        >
-                            <option value="all">All Time History</option>
-                            <option value="month">This Month</option>
-                            <option value="next-month">Next Month</option>
-                            <option value="custom">Custom Period</option>
-                        </select>
-
-                        {timeframe === 'custom' && (
-                            <motion.div
-                                initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                className="flex gap-2 items-center bg-black/20 p-1.5 rounded-lg border border-white/10"
-                            >
-                                <input
-                                    type="date"
-                                    className="bg-transparent text-sm text-gray-300 px-2 py-1 outline-none w-32"
-                                    value={customDateRange.start_date}
-                                    onChange={(e) => {
-                                        setCustomDateRange({ ...customDateRange, start_date: e.target.value });
-                                        // Auto-fetch could be added here, or wait for apply logic
-                                    }}
-                                />
-                                <span className="text-gray-500 text-sm">-</span>
-                                <input
-                                    type="date"
-                                    className="bg-transparent text-sm text-gray-300 px-2 py-1 outline-none w-32"
-                                    value={customDateRange.end_date}
-                                    onChange={(e) => {
-                                        setCustomDateRange({ ...customDateRange, end_date: e.target.value });
-                                    }}
-                                />
-                            </motion.div>
-                        )}
+                            onChange={handleTimeframeChange}
+                            options={[
+                                { value: "month", label: "This Month" },
+                                { value: "previous-month", label: "Previous Month" },
+                                { value: "next-month", label: "Next Month" },
+                                { value: "all", label: "All Time History" }
+                            ]}
+                        />
                     </div>
                     <AnimatedButton
                         onClick={() => setShowAddForm(true)}
@@ -336,16 +309,21 @@ export default function BudgetsPage() {
             <div className={styles.card}>
                 <div className={styles.cardHeader}>Overall Progress</div>
                 <div className={styles.cardBody}>
-                    <div className={styles.overallProgress}>
+                    <div style={{ background: 'rgba(255, 255, 255, 0.05)', borderRadius: '10px', height: '10px', width: '100%', overflow: 'hidden', position: 'relative', marginTop: '0.5rem' }}>
                         <div
-                            className={styles.progressFill}
                             style={{
                                 width: `${Math.min((totalSpent / totalBudget) * 100 || 0, 100)}%`,
-                                backgroundColor: totalSpent > totalBudget ? '#ef4444' : '#3b82f6'
+                                height: '100%',
+                                background: totalSpent > totalBudget 
+                                    ? 'linear-gradient(90deg, #ef4444 0%, #f87171 100%)' 
+                                    : 'linear-gradient(90deg, #6366f1 0%, #a855f7 100%)',
+                                borderRadius: '10px',
+                                transition: 'width 0.8s ease-in-out',
+                                boxShadow: totalSpent > totalBudget ? '0 0 10px rgba(239, 68, 68, 0.5)' : '0 0 10px rgba(99, 102, 241, 0.5)'
                             }}
                         ></div>
                     </div>
-                    <div className={styles.progressLabels}>
+                    <div className={styles.progressLabels} style={{ marginTop: '0.5rem' }}>
                         <span>{formatCurrency(0)}</span>
                         <span>{formatCurrency(totalBudget)}</span>
                     </div>
@@ -374,38 +352,73 @@ export default function BudgetsPage() {
                                             exit={{ opacity: 0, scale: 0.95 }}
                                             transition={{ duration: 0.3, delay: index * 0.05 }}
                                             className={styles.budgetItem}
+                                            style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%', padding: '1.25rem', background: 'var(--card-bg)', border: '1px solid var(--card-border)', borderRadius: '16px', marginBottom: '1rem', gap: '1.5rem' }}
                                         >
-                                            <div className={styles.budgetItemHeader}>
-                                                <h3 className={styles.budgetName}>{categoryName}</h3>
-                                                <div className={styles.budgetActions}>
+                                            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.4rem', flex: 1 }}>
+                                                <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                                                    <h3 className={styles.budgetName} style={{ fontSize: '1.2rem', fontWeight: '600', color: 'white', margin: 0 }}>{categoryName}</h3>
+                                                </div>
+                                                <div className={styles.budgetStats} style={{ fontSize: '0.875rem', color: 'var(--text-secondary)', display: 'flex', flexDirection: 'column', gap: '0.2rem', margin: '0.4rem 0' }}>
+                                                    <div>Spent: <strong style={{ color: 'white' }}>{formatCurrency(spent)}</strong></div>
+                                                    <div>Limit: <strong style={{ color: 'white' }}>{formatCurrency(amount)}</strong></div>
+                                                    <div style={{ marginTop: '4px', fontSize: '0.8rem', fontWeight: '500', color: percent > 100 ? '#ef4444' : '#10b981' }}>
+                                                        {percent > 100 
+                                                            ? `Over budget by ${formatCurrency(spent - amount)}` 
+                                                            : `${formatCurrency(amount - spent)} remaining`}
+                                                    </div>
+                                                </div>
+                                                <div className={styles.budgetActions} style={{ display: 'flex', gap: '0.75rem', marginTop: '0.25rem' }}>
                                                     <button
                                                         className={styles.actionBtn}
                                                         onClick={() => setEditingBudget(budget)}
+                                                        style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem' }}
                                                     >
-                                                        <FiEdit2 size={14} /> Edit
+                                                        <FiEdit2 size={12} /> Edit
                                                     </button>
                                                     <button
                                                         className={`${styles.actionBtn} ${styles.deleteBtn}`}
                                                         onClick={() => handleDeleteBudget(budget.id)}
+                                                        style={{ fontSize: '0.75rem', padding: '0.25rem 0.5rem' }}
                                                     >
-                                                        <FiX size={14} /> Delete
+                                                        <FiX size={12} /> Delete
                                                     </button>
                                                 </div>
                                             </div>
-
-                                            <div className={styles.budgetStats}>
-                                                <span>Spent: {formatCurrency(spent)}</span>
-                                                <span>Budget: {formatCurrency(amount)}</span>
-                                            </div>
-
-                                            <div className={styles.overallProgress}>
-                                                <div
-                                                    className={styles.progressFill}
-                                                    style={{
-                                                        width: `${Math.min(percent, 100)}%`,
-                                                        backgroundColor: percent > 100 ? '#ef4444' : '#3b82f6'
-                                                    }}
-                                                ></div>
+                                            
+                                            <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+                                                <div style={{ position: 'relative', width: '70px', height: '70px', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                                    <svg width="70" height="70" style={{ transform: 'rotate(-90deg)' }}>
+                                                        <circle
+                                                            cx="35"
+                                                            cy="35"
+                                                            r="28"
+                                                            fill="transparent"
+                                                            stroke="rgba(255, 255, 255, 0.05)"
+                                                            strokeWidth="5"
+                                                        />
+                                                        <circle
+                                                            cx="35"
+                                                            cy="35"
+                                                            r="28"
+                                                            fill="transparent"
+                                                            stroke={percent > 100 ? '#ef4444' : 'url(#progressGrad-' + budget.id + ')'}
+                                                            strokeWidth="5"
+                                                            strokeDasharray={2 * Math.PI * 28}
+                                                            strokeDashoffset={2 * Math.PI * 28 - (Math.min(percent, 100) / 100) * 2 * Math.PI * 28}
+                                                            strokeLinecap="round"
+                                                            style={{ transition: 'stroke-dashoffset 0.8s ease-in-out' }}
+                                                        />
+                                                        <defs>
+                                                            <linearGradient id={'progressGrad-' + budget.id} x1="0%" y1="0%" x2="100%" y2="100%">
+                                                                <stop offset="0%" stopColor="#6366f1" />
+                                                                <stop offset="100%" stopColor="#a855f7" />
+                                                            </linearGradient>
+                                                        </defs>
+                                                    </svg>
+                                                    <span style={{ position: 'absolute', fontSize: '0.85rem', fontWeight: '700', color: 'white' }}>
+                                                        {Math.round(percent)}%
+                                                    </span>
+                                                </div>
                                             </div>
                                         </motion.div>
                                     );

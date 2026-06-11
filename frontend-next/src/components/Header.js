@@ -51,19 +51,17 @@ export default function Header() {
                         className={styles.avatarButton}
                         onClick={() => router.push('/dashboard/settings')}
                     >
-                        <div className={styles.avatar}>
-                            <div className={styles.avatar}>
-                                {user?.profile_picture ? (
-                                    <img
-                                        src={getAvatarUrl(user.profile_picture)}
-                                        alt="Profile"
-                                        className={styles.headerAvatarImg}
-                                        style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '50%' }}
-                                    />
-                                ) : (
-                                    getInitials(user)
-                                )}
-                            </div>
+                        <div className={styles.avatar} style={{ flexShrink: 0, width: '40px', height: '40px', display: 'flex', alignItems: 'center', justifyContent: 'center', overflow: 'hidden', borderRadius: '50%' }}>
+                            {user?.profile_picture ? (
+                                <img
+                                    src={getAvatarUrl(user.profile_picture)}
+                                    alt="Profile"
+                                    className={styles.headerAvatarImg}
+                                    style={{ width: '40px', height: '40px', minWidth: '40px', minHeight: '40px', objectFit: 'cover', borderRadius: '50%' }}
+                                />
+                            ) : (
+                                getInitials(user)
+                            )}
                         </div>
                     </button>
                 </div>

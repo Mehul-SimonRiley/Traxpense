@@ -22,9 +22,9 @@ ChartJS.register(
     Filler
 );
 
-export default function SparklineCard({ title, value, trend, isPositive, dataPoints, colorHex }) {
+export default function SparklineCard({ title, value, trend, isPositive, dataPoints, labels, colorHex }) {
     const data = {
-        labels: dataPoints.map((_, i) => `Day ${i + 1}`),
+        labels: labels && labels.length === dataPoints.length ? labels : dataPoints.map((_, i) => `Day ${i + 1}`),
         datasets: [
             {
                 data: dataPoints,

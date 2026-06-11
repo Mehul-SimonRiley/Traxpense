@@ -8,8 +8,16 @@ import LoadingSpinner from '@/components/LoadingSpinner';
 import { motion, AnimatePresence } from "framer-motion";
 import AnimatedButton from '@/components/AnimatedButton';
 import Modal from '@/components/Modal';
+import CustomSelect from "@/components/CustomSelect";
 import styles from '@/styles/Transactions.module.css';
 import { toast } from 'react-toastify';
+
+const formatLocalDate = (dateObj) => {
+    const y = dateObj.getFullYear();
+    const m = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const d = String(dateObj.getDate()).padStart(2, "0");
+    return `${y}-${m}-${d}`;
+};
 
 export default function TransactionsPage() {
     const [filterOpen, setFilterOpen] = useState(false);
@@ -22,7 +30,7 @@ export default function TransactionsPage() {
         netFlow: 0,
     });
     const [filters, setFilters] = useState({
-        dateRange: "all",
+        dateRange: "month",
         category: "all",
         type: "all",
         minAmount: "",
@@ -30,15 +38,15 @@ export default function TransactionsPage() {
     });
 
     const [customDateRange, setCustomDateRange] = useState({
-        start_date: new Date().toISOString().split("T")[0],
-        end_date: new Date().toISOString().split("T")[0],
+        start_date: formatLocalDate(new Date()),
+        end_date: formatLocalDate(new Date()),
     });
     const [showAddForm, setShowAddForm] = useState(false);
     const [editingTransaction, setEditingTransaction] = useState(null);
     const [newTransaction, setNewTransaction] = useState({
         description: "",
         amount: "",
-        date: new Date().toISOString().split("T")[0],
+        date: formatLocalDate(new Date()),
         category_id: "",
         type: "expense",
         notes: "",
@@ -93,16 +101,17 @@ export default function TransactionsPage() {
                 const today = new Date();
                 if (filters.dateRange === "month") {
                     const startOfMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-                    backendFilters.start_date = startOfMonth.toISOString().split('T')[0];
-                    backendFilters.end_date = today.toISOString().split('T')[0];
+                    const endOfMonth = new Date(today.getFullYear(), today.getMonth() + 1, 0);
+                    backendFilters.start_date = formatLocalDate(startOfMonth);
+                    backendFilters.end_date = formatLocalDate(endOfMonth);
                 } else if (filters.dateRange === "week") {
                     const startOfWeek = new Date(today);
                     startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
-                    backendFilters.start_date = startOfWeek.toISOString().split('T')[0];
-                    backendFilters.end_date = today.toISOString().split('T')[0];
+                    backendFilters.start_date = formatLocalDate(startOfWeek);
+                    backendFilters.end_date = formatLocalDate(today);
                 } else if (filters.dateRange === "today") {
-                    backendFilters.start_date = today.toISOString().split('T')[0];
-                    backendFilters.end_date = today.toISOString().split('T')[0];
+                    backendFilters.start_date = formatLocalDate(today);
+                    backendFilters.end_date = formatLocalDate(today);
                 } else if (filters.dateRange === "custom") {
                     backendFilters.start_date = customDateRange.start_date;
                     backendFilters.end_date = customDateRange.end_date;
@@ -197,7 +206,7 @@ export default function TransactionsPage() {
             setNewTransaction({
                 description: "",
                 amount: "",
-                date: new Date().toISOString().split("T")[0],
+                date: formatLocalDate(new Date()),
                 category_id: "",
                 type: "expense",
                 notes: "",
@@ -335,25 +344,25 @@ export default function TransactionsPage() {
                         </AnimatedButton>
                         {filterOpen && (
                             <div className={styles.filtersDropdown}>
-                                <div className="flex justify-between items-center mb-4">
-                                    <h3 className="font-semibold text-gray-700">Filters</h3>
-                                    <button onClick={() => setFilterOpen(false)} className="text-gray-400 hover:text-gray-600">
+                                <div className={styles.dropdownHeader}>
+                                    <h3 className={styles.dropdownTitle}>Filters</h3>
+                                    <button onClick={() => setFilterOpen(false)} className={styles.closeBtn}>
                                         <FiX />
                                     </button>
                                 </div>
                                 <div className={styles.filterGroup}>
                                     <label className={styles.filterLabel}>Date Range</label>
-                                    <select
-                                        className={styles.select}
+                                    <CustomSelect
                                         value={filters.dateRange}
-                                        onChange={(e) => setFilters({ ...filters, dateRange: e.target.value })}
-                                    >
-                                        <option value="all">All Time</option>
-                                        <option value="month">This Month</option>
-                                        <option value="week">This Week</option>
-                                        <option value="today">Today</option>
-                                        <option value="custom">Custom Period</option>
-                                    </select>
+                                        onChange={(val) => setFilters({ ...filters, dateRange: val })}
+                                        options={[
+                                            { value: "all", label: "All Time" },
+                                            { value: "month", label: "This Month" },
+                                            { value: "week", label: "This Week" },
+                                            { value: "today", label: "Today" },
+                                            { value: "custom", label: "Custom Period" }
+                                        ]}
+                                    />
                                 </div>
                                 {filters.dateRange === 'custom' && (
                                     <div className="flex gap-2 items-center bg-gray-100 dark:bg-black/20 p-2 rounded-lg border border-gray-200 dark:border-white/10 w-full mb-4">
@@ -374,30 +383,26 @@ export default function TransactionsPage() {
                                 )}
                                 <div className={styles.filterGroup}>
                                     <label className={styles.filterLabel}>Category</label>
-                                    <select
-                                        className={styles.select}
+                                    <CustomSelect
                                         value={filters.category}
-                                        onChange={(e) => setFilters({ ...filters, category: e.target.value })}
-                                    >
-                                        <option value="all">All Categories</option>
-                                        {categories.map((category) => (
-                                            <option key={category.id} value={category.id}>
-                                                {category.name}
-                                            </option>
-                                        ))}
-                                    </select>
+                                        onChange={(val) => setFilters({ ...filters, category: val })}
+                                        options={[
+                                            { value: "all", label: "All Categories" },
+                                            ...categories.map((category) => ({ value: category.id, label: category.name }))
+                                        ]}
+                                    />
                                 </div>
                                 <div className={styles.filterGroup}>
                                     <label className={styles.filterLabel}>Type</label>
-                                    <select
-                                        className={styles.select}
+                                    <CustomSelect
                                         value={filters.type}
-                                        onChange={(e) => setFilters({ ...filters, type: e.target.value })}
-                                    >
-                                        <option value="all">All Types</option>
-                                        <option value="income">Income</option>
-                                        <option value="expense">Expense</option>
-                                    </select>
+                                        onChange={(val) => setFilters({ ...filters, type: val })}
+                                        options={[
+                                            { value: "all", label: "All Types" },
+                                            { value: "income", label: "Income" },
+                                            { value: "expense", label: "Expense" }
+                                        ]}
+                                    />
                                 </div>
                             </div>
                         )}

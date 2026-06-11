@@ -262,12 +262,19 @@ export default function CategoriesPage() {
                                                     <span>Spent: {formatCurrency(spent)}</span>
                                                     <span>Budget: {formatCurrency(amount)}</span>
                                                 </div>
-                                                <div className={styles.progressBarContainer}>
+                                                <div style={{ background: 'rgba(255, 255, 255, 0.05)', borderRadius: '10px', height: '8px', width: '100%', overflow: 'hidden', position: 'relative', marginTop: '0.75rem' }}>
                                                     <div
-                                                        className={styles.progressBar}
                                                         style={{
                                                             width: `${Math.min(percentage, 100)}%`,
-                                                            backgroundColor: percentage > 100 ? '#ef4444' : (category.color || '#3b82f6')
+                                                            height: '100%',
+                                                            background: percentage > 100 
+                                                                ? 'linear-gradient(90deg, #ef4444 0%, #f87171 100%)' 
+                                                                : `linear-gradient(90deg, ${category.color || '#6366f1'} 0%, #a855f7 100%)`,
+                                                            borderRadius: '10px',
+                                                            transition: 'width 0.8s ease-in-out',
+                                                            boxShadow: percentage > 100 
+                                                                ? '0 0 8px rgba(239, 68, 68, 0.4)' 
+                                                                : `0 0 8px ${category.color || '#6366f1'}66`
                                                         }}
                                                     ></div>
                                                 </div>

@@ -18,6 +18,7 @@ import {
     Legend,
 } from 'chart.js';
 import LoadingSpinner from '@/components/LoadingSpinner';
+import CustomSelect from '@/components/CustomSelect';
 import { motion, AnimatePresence } from "framer-motion";
 import styles from '@/styles/Reports.module.css';
 import { toast } from 'react-toastify';
@@ -36,7 +37,7 @@ ChartJS.register(
 
 export default function ReportsPage() {
     const [reportType, setReportType] = useState("expense-income");
-    const [timeRange, setTimeRange] = useState("all");
+    const [timeRange, setTimeRange] = useState("month");
     const [reportData, setReportData] = useState(null);
     const [isLoading, setIsLoading] = useState(true);
 
@@ -106,16 +107,18 @@ export default function ReportsPage() {
         >
             <div className={styles.pageHeader}>
                 <h1 className={styles.pageTitle}>Financial Reports</h1>
-                <select
-                    className={styles.select}
-                    value={timeRange}
-                    onChange={(e) => setTimeRange(e.target.value)}
-                >
-                    <option value="all">All Time</option>
-                    <option value="week">Last 7 Days</option>
-                    <option value="month">Last 30 Days</option>
-                    <option value="year">Last 12 Months</option>
-                </select>
+                <div style={{ width: '160px' }}>
+                    <CustomSelect
+                        value={timeRange}
+                        onChange={setTimeRange}
+                        options={[
+                            { value: "month", label: "Last 30 Days" },
+                            { value: "all", label: "All Time" },
+                            { value: "week", label: "Last 7 Days" },
+                            { value: "year", label: "Last 12 Months" }
+                        ]}
+                    />
+                </div>
             </div>
 
             <div className={styles.controls}>
