@@ -1,4 +1,5 @@
-# Traxpense 2.0 💰
+<img width="2048" height="2048" alt="traxpense_square_logo" src="https://github.com/user-attachments/assets/37db0dfd-cb40-49ad-b660-be055601477a" /><img width="2048" height="2048" alt="traxpense_square_logo" src="https://github.com/user-attachments/assets/8ab45f56-7551-4c47-bccd-fb362b2397ff" />
+# Traxpense 2.0 💰 
 
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688.svg)](https://fastapi.tiangolo.com/)
