@@ -269,6 +269,6 @@ Made by **Mehulsinh**
 
 *If you found this useful, please ⭐ the repo — it really helps!*
 
-[![GitHub Stars](https://img.shields.io/github/stars/Mehul-SimonRiley/traxpense_2.0?style=social)](https://github.com/Mehul-SimonRiley/traxpense_2.0)
+[![GitHub Stars](https://img.shields.io/github/stars/Mehul-SimonRiley/Traxpense?style=social)](https://github.com/Mehul-SimonRiley/Traxpense)
 
 </div>
