@@ -1,3 +1,7 @@
+<p align="left">
+  <img src="artifacts/traxpense_cricle_logo.png" width="80" alt="Traxpense Logo" />
+</p>
+
 # Traxpense 2.0 💰
 
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
