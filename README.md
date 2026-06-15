@@ -168,7 +168,7 @@ traxpense_2.0/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/Mehul-SimonRiley/traxpense_2.0.git
+git clone https://github.com/Mehul-SimonRiley/Traxpense.git
 cd traxpense_2.0
 ```
 
