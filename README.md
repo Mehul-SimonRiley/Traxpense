@@ -1,4 +1,4 @@
-<img width="1024" height="1024" alt="traxpense_square_logo" src="https://github.com/user-attachments/assets/37db0dfd-cb40-49ad-b660-be055601477a" />
+<img width="512" height="512" alt="traxpense_square_logo" src="https://github.com/user-attachments/assets/37db0dfd-cb40-49ad-b660-be055601477a" />
 
 [![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688.svg)](https://fastapi.tiangolo.com/)
