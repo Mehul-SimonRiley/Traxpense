@@ -1,129 +1,280 @@
-<p align="left">
-  <img src="artifacts/traxpense_cricle_logo.png" width="80" alt="Traxpense Logo" />
-</p>
+<div align="center">
+
+<img src="./assets/logo.png" alt="Traxpense Logo" width="110" height="110" style="border-radius: 50%;"/>
 
 # Traxpense 2.0 💰
 
-[![Python](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.100%2B-009688.svg)](https://fastapi.tiangolo.com/)
-[![Next.js](https://img.shields.io/badge/Next.js-16.1%2B-black.svg)](https://nextjs.org/)
-[![MySQL](https://img.shields.io/badge/MySQL-8.0%2B-blue.svg)](https://www.mysql.com/)
+**Your Personal Finance, Reimagined.**
 
-Traxpense 2.0 is a premium, open-source personal financial tracker and dashboard designed with modern bento-grid layouts, glowing visual analytics, and absolute privacy. Rebuilt entirely on **FastAPI**, **Next.js**, and **MySQL** to provide high-performance ledger management and budget controls.
+A beautifully designed, full-stack expense tracking application built for people who take their finances seriously. Track every rupee, visualize your habits, and take control of your financial future.
 
----
+[![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![License](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)](LICENSE)
 
-## 🌟 Key Features
-
-- **📊 Symmetric Bento Dashboard**:
-  - Balanced overview card layout detailing Balance, Income, Expense, and Savings.
-  - Side-by-side premium visual charts displaying **Income vs Expenses** and **Expense Distribution** without visual clutter.
-  - Defaults to **All Time** data visualization unless manually filtered.
-- **🔐 Secure Authentication**: JWT session authorization with automatic silent refresh-token rotations.
-- **🏷️ Ledger Management (CRUD)**:
-  - Add, edit, and delete transactions and custom category labels.
-  - Default all-time listing with date range filters.
-- **📈 Budget Alerting & Limits**: Create category-based monthly budgets and monitor actual spent metrics in real-time.
-- **⚙️ Redesigned Settings Page**:
-  - Restructured profile information card with responsive upload controls.
-  - Theme switching and customized notification switches for Email/Push channels synced to backend preferences.
-- **🎨 Glassmorphic Theme Layout**: Stunning dark mode with vibrant neon teal highlights, flat cards, and responsive side navigation.
+</div>
 
 ---
 
-## 🛠️ Architecture Overview
+<div align="center">
+
+![Traxpense Dashboard](./assets/dashboard_banner.png)
+
+*A premium, dark-mode financial dashboard with real-time insights.*
+
+</div>
+
+---
+
+## ✨ Overview
+
+Traxpense 2.0 is a **production-grade personal finance tracker** that goes far beyond just logging transactions. With a meticulously crafted UI, real-time analytics, and an intelligent budgeting engine, Traxpense empowers you to understand where your money goes — and make smarter decisions every day.
+
+> Built with a modern **Next.js 15** frontend and a robust **FastAPI** backend, Traxpense delivers a fast, responsive, and visually stunning experience on any device.
+
+---
+
+## 🚀 Core Features
+
+<div align="center">
+
+![Features Showcase](./assets/features_showcase.png)
+
+*Budgets with circular progress rings and a filterable, categorized transaction list.*
+
+</div>
+
+### 📊 Smart Dashboard
+- **4 KPI Cards** — Total Balance, Income, Expenses & Savings at a glance
+- **Income vs Expenses** — Grouped bar chart with monthly breakdowns
+- **Expense Distribution** — Horizontal bar chart by category
+- **Recent Transactions** — Live feed of your latest activity
+- **Timeframe Selector** — View data for Today, This Week, This Month, Last Month, or a Custom Range
+
+### 💳 Transaction Management
+- Add, edit, and delete transactions instantly
+- Filter by **date range**, **category**, **type** (income/expense), and **amount**
+- Smart search with modern filter card UI
+- Paginated transaction list with real-time updates
+
+### 💰 Budget Planner
+- Set monthly budgets per category
+- **Circular SVG progress rings** showing real-time spending vs. budget
+- Color-coded status: On Track 🟢 / Warning 🟡 / Over Budget 🔴
+- View **Previous Month** budget performance for historical context
+
+### 📂 Category Management
+- Create, edit, and delete custom expense categories
+- Assign emojis and colors for at-a-glance identification
+- Category-level spending analytics
+
+### 📅 Calendar View
+- Visual monthly calendar with daily transaction indicators
+- Click any day to see a detailed breakdown of that day's activity
+
+### 📈 Reports
+- Monthly trend analysis
+- Category-wise spending breakdown
+- Income vs. Expense comparison over time
+
+### 🎨 Modern UI/UX
+- **Dark Mode First** design with glassmorphic cards
+- Smooth micro-animations on every interaction
+- Fully responsive — works great on desktop and mobile
+- Dual-arrow collapsible sidebar for maximum screen real estate
+
+---
+
+## 🔮 Upcoming Features
+
+<div align="center">
+
+![AI Insights Preview](./assets/ai_insights_preview.png)
+
+*A sneak peek at the AI-powered insights engine coming soon to Traxpense.*
+
+</div>
+
+### 🤖 AI Insights & Analytics *(Coming Soon)*
+An intelligent financial co-pilot built right into Traxpense:
+- **Spending Pattern Analysis** — AI identifies your habits and anomalies automatically
+- **Budget Recommendations** — Smart suggestions based on your history
+- **Predictive Forecasting** — See where your finances are headed next month
+- **Natural Language Chat** — Ask your finances questions like *"How much did I spend on food last month?"*
+- **Subscription Detection** — Auto-flag recurring charges you might have forgotten about
+
+### ⚡ Auto-Add Transactions *(Coming Soon)*
+Say goodbye to manual entry:
+- **SMS & Email Parsing** — Automatically detect and log bank transactions from notifications
+- **Smart Categorization** — AI pre-fills category, merchant, and amount
+- **One-Tap Confirm** — Review and approve auto-detected transactions in seconds
+- **Bank Statement Import** — Upload CSV/PDF bank statements for bulk import
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technology |
+|-------|-----------|
+| **Frontend** | Next.js 15 (App Router), React 18, CSS Modules |
+| **Backend** | FastAPI (Python 3.11+), SQLAlchemy ORM |
+| **Database** | PostgreSQL 15 |
+| **Charts** | Recharts |
+| **Auth** | JWT (Bearer Token) |
+| **API** | RESTful with full CORS support |
+| **Deployment** | Vercel (Frontend) + Railway/Render (Backend) |
+
+---
+
+## 📁 Project Structure
 
 ```
-├── backend/                   # FastAPI Backend
-│   ├── app/
-│   │   ├── api/routes/        # REST Endpoints (Auth, Users, Transactions, Dashboard, etc.)
-│   │   ├── core/              # Global Configurations, Security JWT utilities
-│   │   ├── db/                # Database Engine & SQLAlchemy Base
-│   │   ├── models/            # SQLAlchemy Declarative Models (User, Transaction, Budget)
-│   │   ├── schemas/           # Pydantic v2 Request/Response Data Validation
-│   │   └── main.py            # API App entrypoint & Auto-schema Initialization
-│   └── requirements.txt       # Python dependencies (pymysql, passlib, jose, etc.)
-│
-├── frontend-next/             # Next.js 16 Frontend (App Router, React 19)
+traxpense_2.0/
+├── 📂 frontend-next/          # Next.js 15 Application
 │   ├── src/
-│   │   ├── app/               # Pages & Routings (Dashboard, Settings, Reports, etc.)
-│   │   ├── components/        # Reusable UI & Chart Modules (ModernBarChart, Sparkline)
-│   │   ├── services/          # Client API calls (Axios client)
-│   │   └── styles/            # Vanilla CSS stylesheets
-│   └── next.config.mjs        # Next.js configuration & Port proxy rewrite rules
+│   │   ├── app/
+│   │   │   ├── dashboard/     # Main dashboard & sub-pages
+│   │   │   │   ├── budgets/   # Budget planner page
+│   │   │   │   ├── transactions/  # Transaction manager
+│   │   │   │   ├── categories/    # Category manager
+│   │   │   │   ├── calendar/      # Calendar view
+│   │   │   │   └── reports/       # Analytics & reports
+│   │   │   └── (auth)/        # Login / Register pages
+│   │   ├── components/        # Reusable UI components
+│   │   ├── services/          # API service layer
+│   │   └── styles/            # CSS Modules
+│   └── public/
+│
+└── 📂 backend/                # FastAPI Application
+    └── app/
+        ├── api/routes/        # API endpoints
+        ├── models/            # SQLAlchemy models
+        ├── schemas/           # Pydantic schemas
+        └── core/              # Config, auth, database
 ```
 
 ---
 
-## 🚀 Setup & Installation
+## ⚙️ Getting Started
 
-### Prerequisite Services
-Ensure you have the following installed locally:
-- **Python 3.10+**
-- **Node.js 18+ & npm**
-- **MySQL Server 8.0+**
+### Prerequisites
 
-### 1. Database Creation
-Create a blank database named `traxpense` inside your local MySQL server:
-```sql
-CREATE DATABASE traxpense;
+- **Node.js** 18+ & npm
+- **Python** 3.11+
+- **PostgreSQL** 15+
+
+### 1. Clone the Repository
+
+```bash
+git clone https://github.com/yourusername/traxpense_2.0.git
+cd traxpense_2.0
+```
+
+### 2. Backend Setup
+
+```bash
+cd backend
+
+# Create and activate virtual environment
+python -m venv venv
+venv\Scripts\activate        # Windows
+# source venv/bin/activate   # macOS/Linux
+
+# Install dependencies
+pip install -r requirements.txt
+
+# Configure environment
+cp .env.example .env
+# Edit .env with your DATABASE_URL and SECRET_KEY
+
+# Run migrations and start server
+uvicorn app.main:app --reload --port 8000
+```
+
+### 3. Frontend Setup
+
+```bash
+cd frontend-next
+
+# Install dependencies
+npm install
+
+# Configure environment
+cp .env.local.example .env.local
+# Edit .env.local → set NEXT_PUBLIC_API_URL=http://localhost:8000
+
+# Start development server
+npm run dev
+```
+
+### 4. Open in Browser
+
+```
+http://localhost:3000
 ```
 
 ---
 
-### 2. Backend Installation (FastAPI)
+## 🌐 API Reference
 
-1. Open your terminal and navigate to the backend directory:
-   ```bash
-   cd backend
-   ```
+The FastAPI backend auto-generates interactive API documentation:
 
-2. Setup a virtual environment:
-   ```bash
-   python -m venv .venv
-   ```
+| Docs | URL |
+|------|-----|
+| **Swagger UI** | `http://localhost:8000/docs` |
+| **ReDoc** | `http://localhost:8000/redoc` |
 
-3. Activate the environment:
-   - **Windows (PowerShell)**: `.venv\Scripts\Activate.ps1`
-   - **Windows (CMD)**: `.venv\Scripts\activate.bat`
-   - **macOS/Linux**: `source .venv/bin/activate`
+Key API routes:
 
-4. Install dependencies:
-   ```bash
-   pip install -r requirements.txt
-   ```
+```
+POST   /api/auth/login
+POST   /api/auth/register
 
-5. Configure environment variables. Update [`.env`](file:///c:/Study%20Material%20And%20Projects/traxpense_2.0/.env) in the root directory:
-   ```env
-   DATABASE_URL=mysql+pymysql://<user>:<password>@localhost:3306/traxpense
-   SECRET_KEY=dev-secret-key-local
-   JWT_SECRET_KEY=jwt-secret-key-local
-   ```
+GET    /api/transactions?timeframe=month
+POST   /api/transactions/
+PUT    /api/transactions/{id}
+DELETE /api/transactions/{id}
 
-6. Start the development server:
-   ```bash
-   uvicorn app.main:app --reload --port 8000
-   ```
-   *FastAPI will automatically generate all table schemas in your MySQL database on start. The API docs will be active at [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs).*
+GET    /api/budgets?timeframe=month
+POST   /api/budgets/
+PUT    /api/budgets/{id}
+DELETE /api/budgets/{id}
+
+GET    /api/dashboard/summary?timeframe=month
+GET    /api/categories/
+GET    /api/reports/?timeframe=month
+```
 
 ---
 
-### 3. Frontend Installation (Next.js)
+## 🤝 Contributing
 
-1. Navigate to the frontend directory:
-   ```bash
-   cd ../frontend-next
-   ```
+Contributions are welcome! If you'd like to help build the next generation of personal finance tools:
 
-2. Install Node dependencies:
-   ```bash
-   npm install
-   ```
+1. **Fork** the repository
+2. **Create** a feature branch: `git checkout -b feature/ai-insights`
+3. **Commit** your changes: `git commit -m 'feat: add AI insights module'`
+4. **Push** to the branch: `git push origin feature/ai-insights`
+5. **Open** a Pull Request
 
-3. Start the Next.js dev server:
-   ```bash
-   npm run dev
-   ```
-   *The client interface will boot at [http://localhost:3000](http://localhost:3000).*
+Please follow [Conventional Commits](https://www.conventionalcommits.org/) for commit messages.
 
 ---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
+
+---
+
+<div align="center">
+
+Made with ❤️ by **Mehulsinh**
+
+*If you found this useful, please ⭐ the repo — it really helps!*
+
+[![GitHub Stars](https://img.shields.io/github/stars/yourusername/traxpense_2.0?style=social)](https://github.com/yourusername/traxpense_2.0)
+
+</div>
