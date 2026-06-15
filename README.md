@@ -10,7 +10,7 @@ A beautifully designed, full-stack expense tracking application built for people
 
 [![Next.js](https://img.shields.io/badge/Next.js-15-black?style=for-the-badge&logo=next.js)](https://nextjs.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-009688?style=for-the-badge&logo=fastapi)](https://fastapi.tiangolo.com/)
-[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-15-4169E1?style=for-the-badge&logo=postgresql&logoColor=white)](https://www.postgresql.org/)
+[![MySQL](https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white)](https://www.mysql.com/)
 [![Python](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
 [![License](https://img.shields.io/badge/License-MIT-22c55e?style=for-the-badge)](LICENSE)
 
@@ -120,7 +120,7 @@ Say goodbye to manual entry:
 |-------|-----------|
 | **Frontend** | Next.js 15 (App Router), React 18, CSS Modules |
 | **Backend** | FastAPI (Python 3.11+), SQLAlchemy ORM |
-| **Database** | PostgreSQL 15 |
+| **Database** | MySQL 8.0 (via PyMySQL) |
 | **Charts** | Recharts |
 | **Auth** | JWT (Bearer Token) |
 | **API** | RESTful with full CORS support |
@@ -168,7 +168,7 @@ traxpense_2.0/
 ### 1. Clone the Repository
 
 ```bash
-git clone https://github.com/yourusername/traxpense_2.0.git
+git clone https://github.com/Mehul-SimonRiley/traxpense_2.0.git
 cd traxpense_2.0
 ```
 
@@ -263,18 +263,12 @@ Please follow [Conventional Commits](https://www.conventionalcommits.org/) for c
 
 ---
 
-## 📄 License
-
-This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.
-
----
-
 <div align="center">
 
-Made with ❤️ by **Mehulsinh**
+Made by **Mehulsinh**
 
 *If you found this useful, please ⭐ the repo — it really helps!*
 
-[![GitHub Stars](https://img.shields.io/github/stars/yourusername/traxpense_2.0?style=social)](https://github.com/yourusername/traxpense_2.0)
+[![GitHub Stars](https://img.shields.io/github/stars/Mehul-SimonRiley/traxpense_2.0?style=social)](https://github.com/Mehul-SimonRiley/traxpense_2.0)
 
 </div>
