@@ -132,7 +132,7 @@ Say goodbye to manual entry:
 
 ```
 traxpense_2.0/
-├── 📂 frontend-next/          # Next.js 15 Application
+├── 📂 frontend/               # Next.js 15 Application
 │   ├── src/
 │   │   ├── app/
 │   │   │   ├── dashboard/     # Main dashboard & sub-pages
@@ -196,7 +196,7 @@ uvicorn app.main:app --reload --port 8000
 ### 3. Frontend Setup
 
 ```bash
-cd frontend-next
+cd frontend
 
 # Install dependencies
 npm install
