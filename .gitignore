@@ -53,3 +53,8 @@ yarn-error.log*
 # System Files
 .DS_Store
 Thumbs.db
+
+# User Uploads
+backend/uploads/
+profile_pics/
+artifacts/

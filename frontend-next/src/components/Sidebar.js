@@ -2,7 +2,7 @@
 
 import { usePathname, useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { FiHome, FiDollarSign, FiGrid, FiPieChart, FiBarChart2, FiCalendar, FiSettings, FiLogOut } from 'react-icons/fi';
+import { FiHome, FiDollarSign, FiGrid, FiPieChart, FiBarChart2, FiCalendar, FiSettings, FiLogOut, FiChevronsLeft, FiChevronsRight } from 'react-icons/fi';
 import styles from '@/styles/DashboardLayout.module.css';
 import { useAuth } from '@/context/AuthContext';
 
@@ -16,7 +16,7 @@ const menuItems = [
     { label: 'Settings', icon: FiSettings, path: '/dashboard/settings' },
 ];
 
-export default function Sidebar({ isOpen }) {
+export default function Sidebar({ isOpen, toggleSidebar }) {
     const pathname = usePathname();
     const router = useRouter();
     const { logout } = useAuth();
@@ -27,6 +27,11 @@ export default function Sidebar({ isOpen }) {
 
     return (
         <aside className={`${styles.sidebar} ${isOpen ? styles.sidebarOpen : styles.sidebarClosed}`}>
+            <div className={styles.sidebarHeader}>
+                <button onClick={toggleSidebar} className={styles.sidebarToggle} title={isOpen ? "Collapse Sidebar" : "Expand Sidebar"}>
+                    {isOpen ? <FiChevronsLeft size={20} /> : <FiChevronsRight size={20} />}
+                </button>
+            </div>
             <nav className={styles.nav}>
                 {menuItems.map((item) => {
                     const isActive = pathname === item.path;
